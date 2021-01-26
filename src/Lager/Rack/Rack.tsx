@@ -51,6 +51,7 @@ export default function Rack() {
       <Route path="/lager/:rack">
         <Container>
           <h1>Showing {rack}</h1>
+          {/* Create 5 Rows for the Rack */}
           <RowComponent layer="e" />
           <RowComponent layer="d" />
           <RowComponent layer="c" />
