@@ -19,7 +19,7 @@ export default function Rack() {
   function ColComponent(props: { field: string, layer: string }) {
     return (
       <Col>
-        <Link className="rackcol" style={{ textDecoration: "none" }} to={`/lager/${rack}/${shelf}${props.layer}${props.field}`}>
+        <Link className="rackcol d-flex justify-content-center align-items-center" style={{ textDecoration: "none" }} to={`/lager/${rack}/${shelf}${props.layer}${props.field}`}>
           {shelf}{props.layer}{props.field}
         </Link>
       </Col>
@@ -42,7 +42,7 @@ export default function Rack() {
   return (
     <Switch>
       {/* Routing */}
-      <Route path="/lager/:rack/field">
+      <Route path="/lager/:rack/:field">
         <Field />
       </Route>
 
