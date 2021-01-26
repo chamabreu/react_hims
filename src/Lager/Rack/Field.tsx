@@ -1,5 +1,5 @@
 import { Button, Col, Container, Row } from "react-bootstrap"
-import { Link, useParams, useHistory } from "react-router-dom"
+import { useParams, useHistory } from "react-router-dom"
 import honey from '../../Assets/honey.jpg'
 
 interface IParams {
@@ -9,7 +9,7 @@ interface IParams {
 
 
 export default function Field() {
-  const { rack, field } = useParams<IParams>()
+  const { field } = useParams<IParams>()
 
   /* Render */
   return (

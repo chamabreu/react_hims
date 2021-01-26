@@ -1,4 +1,4 @@
-import { Col, Container, Row } from "react-bootstrap";
+import { Button, Col, Container, Row } from "react-bootstrap";
 import { Route, Switch, useParams, Link } from "react-router-dom";
 import Field from "./Field";
 
@@ -18,7 +18,7 @@ export default function Rack() {
   /* Custom Component for rackcol */
   function ColComponent(props: { field: string, layer: string }) {
     return (
-      <Col>
+      <Col className="p-0">
         <Link className="rackcol d-flex justify-content-center align-items-center" style={{ textDecoration: "none" }} to={`/lager/${rack}/${shelf}${props.layer}${props.field}`}>
           {shelf}{props.layer}{props.field}
         </Link>
@@ -27,7 +27,7 @@ export default function Rack() {
   }
 
   /* Custom Link Wrapper for the rackrows */
-  function RowComponent(props: { layer: string }) {
+  function RackRowComponent(props: { layer: string }) {
     return (
       <Row className="rackrow d-flex justify-content-stretch">
         <ColComponent layer={props.layer} field={field1} />
@@ -50,13 +50,44 @@ export default function Rack() {
       {/* Rack */}
       <Route path="/lager/:rack">
         <Container>
-          <h1>Showing {rack}</h1>
-          {/* Create 5 Rows for the Rack */}
-          <RowComponent layer="e" />
-          <RowComponent layer="d" />
-          <RowComponent layer="c" />
-          <RowComponent layer="b" />
-          <RowComponent layer="a" />
+          {/* Title of Rack */}
+          <Row className="justify-content-center">
+            <h1>Showing {rack}</h1>
+          </Row>
+
+          {/* Rack Area */}
+          <Row>
+
+
+            {/* Prev Rack Button */}
+            <Col className="col-1 d-flex justify-content-center">
+              <Button className="racknavbutton">
+                &lt;
+              </Button>
+            </Col>
+
+
+            {/* Rack Creation */}
+            <Col className="col-10" >
+              {/* Create 5 Rows for the Rack */}
+              <RackRowComponent layer="e" />
+              <RackRowComponent layer="d" />
+              <RackRowComponent layer="c" />
+              <RackRowComponent layer="b" />
+              <RackRowComponent layer="a" />
+            </Col>
+
+
+            {/* Next Rack Button */}
+            <Col className="col-1 d-flex justify-content-center">
+              <Button className="racknavbutton">
+                &gt;
+              </Button>
+            </Col>
+
+
+
+          </Row>
         </Container>
       </Route>
     </Switch>
