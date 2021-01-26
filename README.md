@@ -3,10 +3,10 @@
 ## Frontend toDos:
 
 ### .../lager
-- overview over 3 whole shelfs
-  - named A B C
-- each shelf has 4 subracks - which routes to /:rack
-  - a rack is named *(shelf + depthrange)* like: A1-3 or B7-9
+- ~~overview over 3 whole shelfs~~
+  - ~~named A B C~~
+- ~~each shelf has 4 subracks - which routes to /:rack~~
+  - ~~a rack is named *(shelf + depthrange)* like: A1-3 or B7-9~~
 
 
 ### .../lager/:rack
