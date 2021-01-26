@@ -2,6 +2,19 @@
 
 ## Frontend toDos:
 
+### Global
+- rename paths / urls
+- 
+
+### .../store
+- a mask to store a new product
+
+### .../search
+- a mask to search for a product
+- searchstring or dropdown
+- with direct link to .../:field
+
+
 ### .../lager
 - ~~overview over 3 whole shelfs~~
   - ~~named A B C~~
@@ -11,12 +24,12 @@
 
 ### .../lager/:rack
 - example route: /lager/C4-6
-- ~~show a shelf frontside with a 3x5 grid~~
-  - ~~a cell is called field and is named *(shelf + layer + depth)* like: Aa2 or Bd5~~
 - a field shows if its empty or not
-- ~~a field shows its fieldname~~
 - a field shows a picture of content
 - left and right arrows next to the shelf to navigate to previous/next rack
+- ~~show a shelf frontside with a 3x5 grid~~
+  - ~~a cell is called field and is named *(shelf + layer + depth)* like: Aa2 or Bd5~~
+- ~~a field shows its fieldname~~
 - ~~each field routes to a /:field~~
 
 ### .../lager/:rack/:field
@@ -27,3 +40,9 @@
 - ~~button to store~~
 - ~~button to take~~
 - ~~button to move~~
+
+
+## Backend toDos:
+- create a datastructure for mongodb
+- graphql or rest
+- image storage
