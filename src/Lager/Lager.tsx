@@ -6,28 +6,33 @@ import Shelf from "./Shelf";
 
 
 export default function Lager() {
+
+
+  /* RENDER */
   return (
     <Switch>
       {/* Routing */}
       <Route path="/lager/:rack">
         <Rack />
       </Route>
-      {/* END */}
 
 
-      {/* Render Lager */}
+      {/* Lager */}
       <Route path="/lager">
         <Container>
           select a rack to jump in
-          <Row className="justify-content-center">
+
+
+          {/* Shelfs */}
+          <Row>
             <Shelf shelfname="A" />
             <Shelf shelfname="B" />
             <Shelf shelfname="C" />
           </Row>
 
+
         </Container>
       </Route>
-      {/* END */}
 
 
     </Switch>

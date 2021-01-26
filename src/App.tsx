@@ -10,7 +10,7 @@ function App() {
 
       {/* Navbar */}
       <Navbar bg="light" expand="lg">
-        
+
         <Navbar.Brand href="/">HIMS</Navbar.Brand>
 
         <Nav className="mr-auto">
@@ -18,27 +18,26 @@ function App() {
         </Nav>
 
       </Navbar>
-      {/* END */}
 
 
 
       {/* Routing */}
       <Switch>
 
+        {/* Sub routings if /lager are managed in Lager Component */}
         <Route path="/lager">
           <Lager />
         </Route>
 
+        {/* Home Path */}
         <Route path="/">
           <h1>Home</h1>
           <p>The Scratchwall for the Project</p>
           <img src={whiteboard} alt="Whiteboard" width="100%" />
         </Route>
 
+
       </Switch>
-      {/* END */}
-
-
     </Container>
   );
 }

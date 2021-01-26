@@ -13,7 +13,6 @@ export default function Shelf(
   {
     shelfname
   }: IProps
-  /* END */
 ) {
 
 
@@ -23,33 +22,32 @@ export default function Shelf(
   // Could be outsorced on a new .tsx file if needed
   function RackComponent(props: { position: string }) {
     return (
-      <Link style={{ textDecoration: "none" }} className="racklink" to={`/lager/:${shelfname}${props.position}`}>
+      <Link style={{ textDecoration: "none" }} to={`/lager/${shelfname}${props.position}`}>
         <div className="rack user-select-none d-flex justify-content-center align-items-center">
           {shelfname}x {props.position}
         </div>
       </Link>
     )
   }
-  /* END */
 
 
 
   /* RENDER */
   return (
     <Col className="d-flex flex-column">
+      {/* Name of Shelf above the shelf */}
       <div className="align-self-center">
         <h3>{shelfname}</h3>
       </div>
+
+      {/* Create the shelf with its 4 Racks */}
       <div className="shelf">
-
-        {/* Create 4 Racks in a shelf */}
-        <RackComponent position="10-12" />
-        <RackComponent position="7-9" />
-        <RackComponent position="4-6" />
-        <RackComponent position="1-3" />
-
+        <RackComponent position="10-11-12" />
+        <RackComponent position="07-08-09" />
+        <RackComponent position="04-05-06" />
+        <RackComponent position="01-02-03" />
       </div>
+
     </Col>
   )
-  /* END */
 };
