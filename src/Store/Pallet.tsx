@@ -1,20 +1,28 @@
+import React, { useState } from "react";
 import { Button, Col, Form, Jumbotron, Row } from "react-bootstrap";
 
-/* 
 
-
-
-
-
-*/
-
+enum StorageLocation {
+  other = "Other",
+  outside = "Outside"
+}
 
 
 export default function Pallet() {
+  const [palletNumber, setPalletNumber] = useState("")
+  const [outsourced, setOutsourced] = useState(false)
+  const [note, setNote] = useState("")
+  const [storageLocation, setStorageLocation] = useState<StorageLocation>(StorageLocation.outside)
+  const [webLink, setWebLink] = useState("")
+  const [comment, setComment] = useState("")
 
-
-
-
+  const selectStorage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setStorageLocation(
+      e.target.value === "Other"
+        ? StorageLocation.other
+        : StorageLocation.outside
+    )
+  }
 
 
   return (
@@ -25,7 +33,12 @@ export default function Pallet() {
         <Form.Group as={Row} controlId="palletNumber">
           <Form.Label column lg={2}>Pallet Number</Form.Label>
           <Col>
-            <Form.Control type="text" placeholder="Pallet Number" />
+            <Form.Control
+              type="text"
+              placeholder="Pallet Number"
+              value={palletNumber}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPalletNumber(e.target.value)}
+            />
           </Col>
         </Form.Group>
 
@@ -33,7 +46,11 @@ export default function Pallet() {
         <Form.Group as={Row} controlId="outsourced">
           <Form.Label column lg={2}>Outsourced?</Form.Label>
           <Col>
-            <Form.Check type="checkbox" />
+            <Form.Check
+              type="checkbox"
+              checked={outsourced}
+              onChange={_ => setOutsourced(!outsourced)}
+            />
           </Col>
         </Form.Group>
 
@@ -41,7 +58,12 @@ export default function Pallet() {
         <Form.Group as={Row} controlId="note">
           <Form.Label column lg={2}>Note</Form.Label>
           <Col>
-            <Form.Control as="textarea" placeholder="Pallet Content" />
+            <Form.Control
+              as="textarea"
+              placeholder="Pallet Content"
+              value={note}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNote(e.target.value)}
+            />
           </Col>
         </Form.Group>
 
@@ -77,16 +99,20 @@ export default function Pallet() {
         */}
 
 
-        <Form.Group as={Row} controlId="lagerort">
-          <Form.Label column lg={2}>Lagerort</Form.Label>
+        <Form.Group as={Row} controlId="storagelocation">
+          <Form.Label column lg={2}>Storage Location</Form.Label>
           <Col>
-            <Form.Control as="select">
-              <option>Außenlager</option>
-              <option>Anderes</option>
+            <Form.Control
+              as="select"
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => selectStorage(e)}
+              value={storageLocation}
+            >
+              <option>Outside</option>
+              <option>Other</option>
             </Form.Control>
             <Form.Text className="text-muted">
-              Wenn sie nicht Außenlager auswählen, tragen sie bitte in die Beschreibung ein, wo die Palette gelagert wird.
-          </Form.Text>
+              If you don't choose Outside, please enter in the Notes where it is stored.
+            </Form.Text>
           </Col>
         </Form.Group>
 
@@ -94,8 +120,19 @@ export default function Pallet() {
         <Form.Group as={Row} controlId="media">
           <Form.Label column lg={2}>Weblink</Form.Label>
           <Col>
-            <Form.Control type="text" placeholder="Weblink" />
-            <Form.Control type="text" placeholder="Comment" className="mt-1" />
+            <Form.Control
+              type="text"
+              placeholder="Webadress"
+              value={webLink}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWebLink(e.target.value)}
+            />
+            <Form.Control
+              type="text"
+              placeholder="Comment"
+              className="mt-1"
+              value={comment}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setComment(e.target.value)}
+            />
           </Col>
         </Form.Group>
 
