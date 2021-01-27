@@ -1,11 +1,31 @@
+/* Imports */
 import { Button, Col, Form, Jumbotron, Row } from "react-bootstrap";
 
+
+/* Type Definitions */
+
+
+
+/* Component */
 export default function Bulk() {
+
+
+
+  /* Render */
   return (
+    /* Show a nice Area for the Form */
     <Jumbotron fluid className="p-3">
+
+
+      {/* The Form for Pallet  */}
       <Form>
+
+
+        {/* Headline */}
         <h2><strong>New Bulk</strong></h2>
 
+
+        {/* Bulk number */}
         <Form.Group as={Row} controlId="bulknumber">
           <Form.Label column lg={2}># number</Form.Label>
           <Col>
@@ -14,6 +34,7 @@ export default function Bulk() {
         </Form.Group>
 
 
+        {/* Value for the Workflow */}
         <Form.Group as={Row} controlId="value">
           <Form.Label column lg={2}>Value</Form.Label>
           <Col>
@@ -22,6 +43,7 @@ export default function Bulk() {
         </Form.Group>
 
 
+        {/* Client or Company */}
         <Form.Group as={Row} controlId="client">
           <Form.Label column lg={2}>Client</Form.Label>
           <Col>
@@ -30,6 +52,7 @@ export default function Bulk() {
         </Form.Group>
 
 
+        {/* Ordernumber */}
         <Form.Group as={Row} controlId="ordernumber">
           <Form.Label column lg={2}>Ordernumber</Form.Label>
           <Col>
@@ -38,6 +61,7 @@ export default function Bulk() {
         </Form.Group>
 
 
+        {/* Client contact, email, name, phone */}
         <Form.Group as={Row} controlId="clientcontact">
           <Form.Label column lg={2}>Clientcontact</Form.Label>
           <Col>
@@ -46,6 +70,7 @@ export default function Bulk() {
         </Form.Group>
 
 
+        {/* MSDS Security sheet */}
         <Form.Group as={Row} controlId="msds">
           <Form.Label column lg={2}>MSDS</Form.Label>
           <Col>
@@ -54,6 +79,7 @@ export default function Bulk() {
         </Form.Group>
 
 
+        {/* Explosion protection required */}
         <Form.Group as={Row} controlId="exprotection">
           <Form.Label column lg={2}>Ex-Protection</Form.Label>
           <Col>
@@ -62,6 +88,7 @@ export default function Bulk() {
         </Form.Group>
 
 
+        {/* Storage location */}
         <Form.Group as={Row} controlId="storagelocation">
           <Form.Label column lg={2}>Storage Location</Form.Label>
           <Col>
@@ -78,7 +105,7 @@ export default function Bulk() {
         </Form.Group>
 
 
-
+        {/* Bundle of the Bulk */}
         <Form.Group as={Row} controlId="bundle">
           <Form.Label column lg={2}>Bundle</Form.Label>
           <Col>
@@ -98,6 +125,7 @@ export default function Bulk() {
         </Form.Group>
 
 
+        {/* Weight of the Bulk */}
         <Form.Group as={Row} controlId="weight">
           <Form.Label column lg={2}>Weight</Form.Label>
           <Col>
@@ -106,6 +134,7 @@ export default function Bulk() {
         </Form.Group>
 
 
+        {/* Size of the Bulk */}
         <Form.Group as={Row} controlId="size">
           <Form.Label column lg={2}>Size</Form.Label>
           <Col>
@@ -114,6 +143,7 @@ export default function Bulk() {
         </Form.Group>
 
 
+        {/* Number of Pallets */}
         <Form.Group as={Row} controlId="palletcount">
           <Form.Label column lg={2}>Pallet count</Form.Label>
           <Col>
@@ -122,6 +152,7 @@ export default function Bulk() {
         </Form.Group>
 
 
+        {/* Date of waste */}
         <Form.Group as={Row} controlId="wasteddate">
           <Form.Label column lg={2}>Wasted on</Form.Label>
           <Col>
@@ -130,8 +161,7 @@ export default function Bulk() {
         </Form.Group>
 
 
-
-
+        {/* Wasted by whom */}
         <Form.Group as={Row} controlId="wastedby">
           <Form.Label column lg={2}>Wasted by</Form.Label>
           <Col>
@@ -147,6 +177,7 @@ export default function Bulk() {
         </Form.Group>
 
 
+        {/* Archive */}
         <Form.Group as={Row} controlId="archive">
           <Form.Label column lg={2}>Archive</Form.Label>
           <Col>
@@ -155,7 +186,7 @@ export default function Bulk() {
         </Form.Group>
 
 
-
+        {/* Document - maybe redundant? */}
         <Form.Group as={Row} controlId="document">
           <Form.Label column lg={2}>Document</Form.Label>
           <Col>
@@ -165,6 +196,7 @@ export default function Bulk() {
         </Form.Group>
 
 
+        {/* Arrival Date */}
         <Form.Group as={Row} controlId="arrival">
           <Form.Label column lg={2}>Bulk arrival</Form.Label>
           <Col>
@@ -173,6 +205,7 @@ export default function Bulk() {
         </Form.Group>
 
 
+        {/* Notes textarea */}
         <Form.Group as={Row} controlId="note">
           <Form.Label column lg={2}>Note</Form.Label>
           <Col>
@@ -180,38 +213,11 @@ export default function Bulk() {
           </Col>
         </Form.Group>
 
-        {/* 
-          <Form.Group as={Row} controlId="lagerplatzAussenlager">
-            <Form.Label column lg={2}>Lagerplatz Außenlager</Form.Label>
-            <Col>
-              <Form.Control as="select">
-                <option>A01.A</option>
-                <option>A01.B</option>
-                <option>A01.C</option>
-                <option>A01.D</option>
-                <option>A01.E</option>
-                <option>A02.A</option>
-                <option>A02.B</option>
-                <option>A02.C</option>
-                <option>A02.D</option>
-                <option>A02.E</option>
-                <option>A03.A</option>
-                <option>A03.B</option>
-                <option>A03.C</option>
-                <option>A03.D</option>
-                <option>A03.E</option>
-                <option>A04.A</option>
-                <option>A04.B</option>
-                <option>A04.C</option>
-                <option>A04.D</option>
-                <option>A04.E</option>
-              </Form.Control>
-            </Col>
-          </Form.Group>
-        */}
 
-
+        {/* Buttons */}
         <Row>
+
+          {/* Add to waiting list to place the Pallet with drag and drop in the rack */}
           <Col>
             <Button variant="primary" block>
               Add to waiting list
@@ -219,6 +225,7 @@ export default function Bulk() {
           </Col>
 
 
+          {/* Reset the Form */}
           <Col>
             <Row className="mb-2">
               <Button variant="danger" type="reset" block>

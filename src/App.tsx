@@ -41,12 +41,12 @@ function App() {
           <Lager />
         </Route>
 
-
+        {/* Storepage to store new items */}
         <Route path="/store">
           <Store />
         </Route>
 
-
+        {/* Searchpage to search items */}
         <Route path="/search">
           <Search />
         </Route>

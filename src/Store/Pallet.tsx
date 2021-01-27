@@ -1,14 +1,18 @@
+/* Imports */
 import React, { useState } from "react";
 import { Button, Col, Form, Jumbotron, Row } from "react-bootstrap";
 
-
+/* Type Definitions */
+/* Options for StorageLocation Selector */
 enum StorageLocation {
   other = "Other",
   outside = "Outside"
 }
 
 
+/* Component */
 export default function Pallet() {
+  /* States */
   const [palletNumber, setPalletNumber] = useState("")
   const [outsourced, setOutsourced] = useState(false)
   const [note, setNote] = useState("")
@@ -16,6 +20,7 @@ export default function Pallet() {
   const [webLink, setWebLink] = useState("")
   const [comment, setComment] = useState("")
 
+  /* Actions */
   const selectStorage = (e: React.ChangeEvent<HTMLInputElement>) => {
     setStorageLocation(
       e.target.value === "Other"
@@ -25,11 +30,21 @@ export default function Pallet() {
   }
 
 
+  /* Render */
   return (
+    /* Show a nice Area for the Form */
     <Jumbotron fluid className="p-3">
+
+
+      {/* The Form for Pallet  */}
       <Form>
+
+
+        {/* Headline */}
         <h2><strong>New Palett</strong></h2>
 
+
+        {/* Pallet Number */}
         <Form.Group as={Row} controlId="palletNumber">
           <Form.Label column lg={2}>Pallet Number</Form.Label>
           <Col>
@@ -43,6 +58,7 @@ export default function Pallet() {
         </Form.Group>
 
 
+        {/* Outsourced option */}
         <Form.Group as={Row} controlId="outsourced">
           <Form.Label column lg={2}>Outsourced?</Form.Label>
           <Col>
@@ -55,6 +71,7 @@ export default function Pallet() {
         </Form.Group>
 
 
+        {/* Notes textarea */}
         <Form.Group as={Row} controlId="note">
           <Form.Label column lg={2}>Note</Form.Label>
           <Col>
@@ -68,6 +85,9 @@ export default function Pallet() {
         </Form.Group>
 
 
+        {/* A Selector to choose where a Pallet should be placed.
+This is commented out, because the "placing" maybe is solved with
+a waiting list and drag and drop */}
         {/* 
           <Form.Group as={Row} controlId="lagerplatzAussenlager">
             <Form.Label column lg={2}>Lagerplatz Außenlager</Form.Label>
@@ -98,7 +118,7 @@ export default function Pallet() {
           </Form.Group>
         */}
 
-
+        {/* Which storage is used */}
         <Form.Group as={Row} controlId="storagelocation">
           <Form.Label column lg={2}>Storage Location</Form.Label>
           <Col>
@@ -117,6 +137,7 @@ export default function Pallet() {
         </Form.Group>
 
 
+        {/* Link to media - maybe not needed with this webapp */}
         <Form.Group as={Row} controlId="media">
           <Form.Label column lg={2}>Weblink</Form.Label>
           <Col>
@@ -136,7 +157,11 @@ export default function Pallet() {
           </Col>
         </Form.Group>
 
+
+        {/* Buttons */}
         <Row>
+
+          {/* Add to waiting list to place the Pallet with drag and drop in the rack */}
           <Col>
             <Button variant="primary" block>
               Add to waiting list
@@ -144,6 +169,7 @@ export default function Pallet() {
           </Col>
 
 
+          {/* Reset the Form */}
           <Col>
             <Row className="mb-2">
               <Button variant="danger" type="reset" block>

@@ -1,17 +1,19 @@
+/* Imports */
 import { Container, Row } from "react-bootstrap";
 import { Route, Switch } from "react-router-dom";
 import Rack from "./Rack/Rack";
 import Shelf from "./Shelf";
 
 
-
+/* Component */
 export default function Lager() {
 
 
   /* RENDER */
   return (
     <Switch>
-      {/* Routing */}
+
+      {/* Routing to racks */}
       <Route path="/lager/:rack">
         <Rack />
       </Route>
