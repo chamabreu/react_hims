@@ -3,7 +3,7 @@
 ## Frontend toDos:
 
 ### Global
-- rename paths / urls
+- ~~rename paths / urls~~
 - 
 
 ### .../store

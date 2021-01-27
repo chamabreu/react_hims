@@ -19,8 +19,8 @@ export default function Rack() {
   function ColComponent(props: { field: string, layer: string }) {
     return (
       <Col className="p-0">
-        <Link className="rackcol d-flex justify-content-center align-items-center" style={{ textDecoration: "none" }} to={`/lager/${rack}/${shelf}${props.layer}${props.field}`}>
-          {shelf}{props.layer}{props.field}
+        <Link className="customlink rackcol d-flex justify-content-center align-items-center" to={`/lager/${rack}/${shelf}${props.field}.${props.layer}`}>
+          {shelf}{props.field}.{props.layer}
         </Link>
       </Col>
     )
@@ -70,11 +70,11 @@ export default function Rack() {
             {/* Rack Creation */}
             <Col className="col-10" >
               {/* Create 5 Rows for the Rack */}
-              <RackRowComponent layer="e" />
-              <RackRowComponent layer="d" />
-              <RackRowComponent layer="c" />
-              <RackRowComponent layer="b" />
-              <RackRowComponent layer="a" />
+              <RackRowComponent layer="E" />
+              <RackRowComponent layer="D" />
+              <RackRowComponent layer="C" />
+              <RackRowComponent layer="B" />
+              <RackRowComponent layer="A" />
             </Col>
 
 

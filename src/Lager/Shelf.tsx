@@ -22,8 +22,8 @@ export default function Shelf(
   // Could be outsorced on a new .tsx file if needed
   function RackComponent(props: { position: string }) {
     return (
-      <Link className="rack d-flex justify-content-center align-items-center" style={{ textDecoration: "none" }} to={`/lager/${shelfname}${props.position}`}>
-        {shelfname}x {props.position}
+      <Link className="customlink rack d-flex justify-content-center align-items-center" to={`/lager/${shelfname}${props.position}`}>
+        {shelfname}{props.position}.X
       </Link>
     )
   }
