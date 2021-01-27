@@ -1,13 +1,55 @@
 /* Imports */
+import { useState } from "react";
 import { Button, Col, Form, Jumbotron, Row } from "react-bootstrap";
 
 
 /* Type Definitions */
+/* 
 
+storagelocation select options
+  Hall
+  Laboratory
+  Outside
+  TestTower
+
+bundle select options (with custom text)
+  Cardboard
+  Barrel
+  Bucket
+  BigBag
+  Custom
+
+wastedate date
+wastedby select options
+  Client Pickup
+  Retoure on Order 
+  Reference product
+  House garbage
+  Disposal with TC
+  Take away field service
+
+document 2 textfields?!
+arrival date
+
+
+*/
 
 
 /* Component */
 export default function Bulk() {
+const [bulknumber, setBulknumber] = useState("")
+const [value, setValue] = useState("")
+const [client, setClient] = useState("")
+const [ordernumber, setOrdernumber] = useState("")
+const [clientcontact, setClientcontact] = useState("")
+const [msds, setMsds] = useState(false)
+const [exprotection, setExprotection] = useState(false)
+const [weight, setWeight] = useState("")
+const [size, setSize] = useState("")
+const [palletcount, setPalletcount] = useState("")
+const [archive, setArchive] = useState(false)
+const [note, setNote] = useState("")
+
 
 
 
