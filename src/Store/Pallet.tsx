@@ -1,33 +1,46 @@
 /* Imports */
 import React, { useState } from "react";
 import { Button, Col, Form, Jumbotron, Row } from "react-bootstrap";
-
-/* Type Definitions */
-/* Options for StorageLocation Selector */
-enum StorageLocation {
-  other = "Other",
-  outside = "Outside"
-}
+import { SelectorOptions, TSelectorOption, ESelectorIDs } from './Store';
+import OptionComponent from './Components/OptionComponent';
 
 
 /* Component */
 export default function Pallet() {
   /* States */
-  const [palletNumber, setPalletNumber] = useState("")
-  const [outsourced, setOutsourced] = useState(false)
+  const [palletID, setPalletID] = useState("")
+  const [releasedFromStock, setReleasedFromStock] = useState(false)
   const [note, setNote] = useState("")
-  const [storageLocation, setStorageLocation] = useState<StorageLocation>(StorageLocation.outside)
+  const [storagelocation, setStoragelocation] = useState<TSelectorOption>(SelectorOptions.outsideWarehouse)
   const [webLink, setWebLink] = useState("")
   const [comment, setComment] = useState("")
 
-  /* Actions */
-  const selectStorage = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setStorageLocation(
-      e.target.value === "Other"
-        ? StorageLocation.other
-        : StorageLocation.outside
-    )
+
+  /* Textfield inputs and other are handled inline */
+  /* The Handle for the select inputs. */
+  const selectChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+    /* Excract the id and value of the select tag */
+    const { id, value } = e.target
+
+
+    /* Switch the right selector */
+    switch (id as ESelectorIDs) {
+
+      /* Pallet Storage Location */
+      case ESelectorIDs.palletStorageLocation:
+        setStoragelocation((prevStoragelocation: TSelectorOption): TSelectorOption => {
+          return { ...prevStoragelocation, value: value }
+        })
+        break;
+
+
+      /* Exit */
+      default:
+        break;
+    }
   }
+
 
 
   /* Render */
@@ -45,27 +58,27 @@ export default function Pallet() {
 
 
         {/* Pallet Number */}
-        <Form.Group as={Row} controlId="palletNumber">
-          <Form.Label column lg={2}>Pallet Number</Form.Label>
+        <Form.Group as={Row} controlId="palletid">
+          <Form.Label column lg={2}>Pallet ID</Form.Label>
           <Col>
             <Form.Control
               type="text"
-              placeholder="Pallet Number"
-              value={palletNumber}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPalletNumber(e.target.value)}
+              placeholder="Pallet ID"
+              value={palletID}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPalletID(e.target.value)}
             />
           </Col>
         </Form.Group>
 
 
         {/* Outsourced option */}
-        <Form.Group as={Row} controlId="outsourced">
-          <Form.Label column lg={2}>Outsourced?</Form.Label>
+        <Form.Group as={Row} controlId="releasedfromstock">
+          <Form.Label column lg={2}>Released from Stock</Form.Label>
           <Col>
             <Form.Check
               type="checkbox"
-              checked={outsourced}
-              onChange={_ => setOutsourced(!outsourced)}
+              checked={releasedFromStock}
+              onChange={_ => setReleasedFromStock(!releasedFromStock)}
             />
           </Col>
         </Form.Group>
@@ -119,19 +132,20 @@ a waiting list and drag and drop */}
         */}
 
         {/* Which storage is used */}
-        <Form.Group as={Row} controlId="storagelocation">
+        <Form.Group as={Row} controlId={ESelectorIDs.palletStorageLocation}>
           <Form.Label column lg={2}>Storage Location</Form.Label>
           <Col>
             <Form.Control
               as="select"
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => selectStorage(e)}
-              value={storageLocation}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => selectChangeHandler(e)}
+              value={storagelocation.value}
             >
-              <option>Outside</option>
-              <option>Other</option>
+              <OptionComponent content={SelectorOptions.outsideWarehouse} />
+              <OptionComponent content={SelectorOptions.other} />
+
             </Form.Control>
             <Form.Text className="text-muted">
-              If you don't choose Outside, please enter in the Notes where it is stored.
+              If you choose other, please add a note where the pallet is stored.
             </Form.Text>
           </Col>
         </Form.Group>
