@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Button, Col, Form, Jumbotron, Row } from "react-bootstrap";
 import { SelectorOptions, TSelectorOption, ESelectorIDs } from './Store';
 import OptionComponent from './Components/OptionComponent';
-
+import axios from 'axios'
 
 /* Component */
 export default function Pallet() {
@@ -11,9 +11,10 @@ export default function Pallet() {
   const [palletID, setPalletID] = useState("")
   const [releasedFromStock, setReleasedFromStock] = useState(false)
   const [note, setNote] = useState("")
-  const [storagelocation, setStoragelocation] = useState<TSelectorOption>(SelectorOptions.outsideWarehouse)
-  const [webLink, setWebLink] = useState("")
-  const [comment, setComment] = useState("")
+  const [storageLocation, setStorageLocation] = useState<TSelectorOption>(SelectorOptions.outsideWarehouse)
+  // const [webLink, setWebLink] = useState("")
+  // const [comment, setComment] = useState("")
+  const [enteredBy, setEnteredBy] = useState("")
 
 
   /* Textfield inputs and other are handled inline */
@@ -29,8 +30,8 @@ export default function Pallet() {
 
       /* Pallet Storage Location */
       case ESelectorIDs.palletStorageLocation:
-        setStoragelocation((prevStoragelocation: TSelectorOption): TSelectorOption => {
-          return { ...prevStoragelocation, value: value }
+        setStorageLocation((prevStorageLocation: TSelectorOption): TSelectorOption => {
+          return { ...prevStorageLocation, value: value }
         })
         break;
 
@@ -42,6 +43,24 @@ export default function Pallet() {
   }
 
 
+  /* Submit */
+  const submitData = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    axios.post('http://localhost:5000/store/pallet', {
+      palletID,
+      releasedFromStock,
+      note,
+      storageLocation: storageLocation.value,
+      enteredBy,
+    })
+      .then(response => {
+        console.log(response.data)
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+
 
   /* Render */
   return (
@@ -50,7 +69,7 @@ export default function Pallet() {
 
 
       {/* The Form for Pallet  */}
-      <Form>
+      <Form onSubmit={e => submitData(e)} >
 
 
         {/* Headline */}
@@ -58,7 +77,7 @@ export default function Pallet() {
 
 
         {/* Pallet Number */}
-        <Form.Group as={Row} controlId="palletid">
+        <Form.Group as={Row} controlId="palletID">
           <Form.Label column lg={2}>Pallet ID</Form.Label>
           <Col>
             <Form.Control
@@ -72,7 +91,7 @@ export default function Pallet() {
 
 
         {/* Outsourced option */}
-        <Form.Group as={Row} controlId="releasedfromstock">
+        <Form.Group as={Row} controlId="releasedFromStock">
           <Form.Label column lg={2}>Released from Stock</Form.Label>
           <Col>
             <Form.Check
@@ -138,7 +157,7 @@ a waiting list and drag and drop */}
             <Form.Control
               as="select"
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => selectChangeHandler(e)}
-              value={storagelocation.value}
+              value={storageLocation.value}
             >
               <OptionComponent content={SelectorOptions.outsideWarehouse} />
               <OptionComponent content={SelectorOptions.other} />
@@ -153,20 +172,36 @@ a waiting list and drag and drop */}
 
         {/* Link to media - maybe not needed with this webapp */}
         <Form.Group as={Row} controlId="media">
-          <Form.Label column lg={2}>Weblink</Form.Label>
+          <Form.Label column lg={2}>Weblink (out of order)</Form.Label>
           <Col>
             <Form.Control
               type="text"
               placeholder="Webadress"
-              value={webLink}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWebLink(e.target.value)}
+              // value={webLink}
+              // onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWebLink(e.target.value)}
+              readOnly
             />
             <Form.Control
               type="text"
               placeholder="Comment"
               className="mt-1"
-              value={comment}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setComment(e.target.value)}
+              // value={comment}
+              // onChange={(e: React.ChangeEvent<HTMLInputElement>) => setComment(e.target.value)}
+              readOnly
+            />
+          </Col>
+        </Form.Group>
+
+
+        {/* Editor Name enteredBy */}
+        <Form.Group as={Row} controlId="enteredBy">
+          <Form.Label column lg={2}>Your Name</Form.Label>
+          <Col>
+            <Form.Control
+              type="text"
+              placeholder="Your Name"
+              value={enteredBy}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEnteredBy(e.target.value)}
             />
           </Col>
         </Form.Group>
@@ -177,7 +212,7 @@ a waiting list and drag and drop */}
 
           {/* Add to waiting list to place the Pallet with drag and drop in the rack */}
           <Col>
-            <Button variant="primary" block>
+            <Button variant="primary" type="submit" block>
               Add to waiting list
             </Button>
           </Col>

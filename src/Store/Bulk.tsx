@@ -9,24 +9,26 @@ import OptionComponent from './Components/OptionComponent';
 /* Component */
 export default function Bulk() {
   /* States. Should get them out with useContext or useReducer */
-  const [bulknumber, setBulknumber] = useState(0)
+  const [bulkSolidID, setBulkSolidID] = useState(0)
   const [description, setDescription] = useState("")
   const [client, setClient] = useState("")
   const [aID, setAID] = useState("")
-  const [clientcontact, setClientcontact] = useState("")
+  const [clientContact, setClientContact] = useState("")
   const [msds, setMsds] = useState(false)
   const [exprotection, setExprotection] = useState(false)
   const [weight, setWeight] = useState(0)
   const [size, setSize] = useState(0)
-  const [palletcount, setPalletcount] = useState(1)
+  const [palletCount, setPalletCount] = useState(1)
   const [archive, setArchive] = useState(false)
   const [note, setNote] = useState("")
-  const [storagelocation, setStoragelocation] = useState<TSelectorOption>(SelectorOptions.testcenter)
+  const [storageLocation, setStorageLocation] = useState<TSelectorOption>(SelectorOptions.testCenter)
   const [bundle, setBundle] = useState<TSelectorOption>(SelectorOptions.barrel)
-  const [custombundle, setCustombundle] = useState("")
-  const [wastedby, setWastedby] = useState<TSelectorOption>(SelectorOptions.clientPickup)
-  const [wastedate, setWastedate] = useState("")
-  const [arrivaldate, setArrivaldate] = useState("")
+  const [customBundle, setCustomBundle] = useState("")
+  const [wastedBy, setWastedBy] = useState<TSelectorOption>(SelectorOptions.clientPickup)
+  const [wasteDate, setWasteDate] = useState("")
+  const [arrivalDate, setArrivalDate] = useState("")
+  const [enteredBy, setEnteredBy] = useState("")
+
 
 
   /* Textfield inputs and other are handled inline */
@@ -41,27 +43,27 @@ export default function Bulk() {
 
       /* Bulk Storage Location */
       case ESelectorIDs.bulkStorageLocation:
-        setStoragelocation((prevStoragelocation: TSelectorOption): TSelectorOption => {
-          return { ...prevStoragelocation, value: value }
+        setStorageLocation((prevStorageLocation: TSelectorOption): TSelectorOption => {
+          return { ...prevStorageLocation, value: value }
         })
         break;
 
 
       /* Bundle Option */
       case ESelectorIDs.bundle:
-        setBundle((prevStoragelocation: TSelectorOption): TSelectorOption => {
+        setBundle((prevStorageLocation: TSelectorOption): TSelectorOption => {
           if (value !== SelectorOptions.custom.value) {
-            setCustombundle("")
+            setCustomBundle("")
           }
-          return { ...prevStoragelocation, value: value }
+          return { ...prevStorageLocation, value: value }
         })
         break;
 
 
       /* Wasted By */
-      case ESelectorIDs.wastedby:
-        setWastedby((prevStoragelocation: TSelectorOption): TSelectorOption => {
-          return { ...prevStoragelocation, value: value }
+      case ESelectorIDs.wastedBy:
+        setWastedBy((prevStorageLocation: TSelectorOption): TSelectorOption => {
+          return { ...prevStorageLocation, value: value }
         })
         break;
 
@@ -88,14 +90,14 @@ export default function Bulk() {
 
 
         {/* Bulk number */}
-        <Form.Group as={Row} controlId="bulksolidid">
+        <Form.Group as={Row} controlId="bulkSolidID">
           <Form.Label column lg={2}>Bulk solid ID</Form.Label>
           <Col>
             <Form.Control
               type="number"
               placeholder="Bulk solid ID"
-              value={bulknumber}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setBulknumber(parseInt(e.target.value)) }}
+              value={bulkSolidID}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setBulkSolidID(parseInt(e.target.value)) }}
             />
           </Col>
         </Form.Group>
@@ -130,7 +132,7 @@ export default function Bulk() {
 
 
         {/* Ordernumber */}
-        <Form.Group as={Row} controlId="aid">
+        <Form.Group as={Row} controlId="aID">
           <Form.Label column lg={2}>A-ID</Form.Label>
           <Col>
             <Form.Control
@@ -144,14 +146,14 @@ export default function Bulk() {
 
 
         {/* Client contact, email, name, phone */}
-        <Form.Group as={Row} controlId="clientcontact">
+        <Form.Group as={Row} controlId="clientContact">
           <Form.Label column lg={2}>Client contact</Form.Label>
           <Col>
             <Form.Control
               type="text"
               placeholder="Name or email or phone"
-              value={clientcontact}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setClientcontact(e.target.value)}
+              value={clientContact}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setClientContact(e.target.value)}
             />
           </Col>
         </Form.Group>
@@ -193,9 +195,9 @@ export default function Bulk() {
             <Form.Control
               as="select"
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => selectChangeHandler(e)}
-              value={storagelocation.value}
+              value={storageLocation.value}
             >
-              <OptionComponent content={SelectorOptions.testcenter} />
+              <OptionComponent content={SelectorOptions.testCenter} />
               <OptionComponent content={SelectorOptions.laboratory} />
               <OptionComponent content={SelectorOptions.outsideWarehouse} />
               <OptionComponent content={SelectorOptions.testTower} />
@@ -219,7 +221,7 @@ export default function Bulk() {
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => selectChangeHandler(e)}
                 value={bundle.value}
               >
-                <OptionComponent content={SelectorOptions.cardboard} />
+                <OptionComponent content={SelectorOptions.cardBoard} />
                 <OptionComponent content={SelectorOptions.barrel} />
                 <OptionComponent content={SelectorOptions.bucket} />
                 <OptionComponent content={SelectorOptions.bigBag} />
@@ -232,8 +234,8 @@ export default function Bulk() {
                 <Form.Control
                   type="text"
                   placeholder="Enter your custom bundle (this only should appear if 'Custom' is chosen)"
-                  value={custombundle}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCustombundle(e.target.value)}
+                  value={customBundle}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCustomBundle(e.target.value)}
                 />
               </Row>
               : null
@@ -271,14 +273,14 @@ export default function Bulk() {
 
 
         {/* Number of Pallets */}
-        <Form.Group as={Row} controlId="palletcount">
+        <Form.Group as={Row} controlId="palletCount">
           <Form.Label column lg={2}>Pallet count</Form.Label>
           <Col>
             <Form.Control
               type="number"
               placeholder="Number of pallets"
-              value={palletcount}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPalletcount(parseInt(e.target.value))}
+              value={palletCount}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPalletCount(parseInt(e.target.value))}
             />
           </Col>
         </Form.Group>
@@ -286,13 +288,13 @@ export default function Bulk() {
 
 
         {/* Date of waste */}
-        <Form.Group as={Row} controlId="wasteddate">
+        <Form.Group as={Row} controlId="wasteDate">
           <Form.Label column lg={2}>Wasted on</Form.Label>
           <Col>
             <Form.Control
               type="date"
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWastedate(e.target.value)}
-              value={wastedate}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWasteDate(e.target.value)}
+              value={wasteDate}
             />
           </Col>
         </Form.Group>
@@ -300,13 +302,13 @@ export default function Bulk() {
 
 
         {/* Wasted by whom */}
-        <Form.Group as={Row} controlId={ESelectorIDs.wastedby}>
+        <Form.Group as={Row} controlId={ESelectorIDs.wastedBy}>
           <Form.Label column lg={2}>Wasted by</Form.Label>
           <Col>
             <Form.Control
               as="select"
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => selectChangeHandler(e)}
-              value={wastedby.value}
+              value={wastedBy.value}
             >
               <OptionComponent content={SelectorOptions.clientPickup} />
               <OptionComponent content={SelectorOptions.retoureOnOrder} />
@@ -351,8 +353,8 @@ export default function Bulk() {
           <Col>
             <Form.Control
               type="date"
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setArrivaldate(e.target.value)}
-              value={arrivaldate}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setArrivalDate(e.target.value)}
+              value={arrivalDate}
             />
           </Col>
         </Form.Group>
@@ -370,6 +372,21 @@ export default function Bulk() {
             />
           </Col>
         </Form.Group>
+
+
+        {/* Editor Name enteredBy */}
+        <Form.Group as={Row} controlId="enteredBy">
+          <Form.Label column lg={2}>Your Name</Form.Label>
+          <Col>
+            <Form.Control
+              type="text"
+              placeholder="Your Name"
+              value={enteredBy}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEnteredBy(e.target.value)}
+            />
+          </Col>
+        </Form.Group>
+
 
 
         {/* Buttons */}
