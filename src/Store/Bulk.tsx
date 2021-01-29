@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Button, Col, Form, Jumbotron, Row } from "react-bootstrap";
 import { SelectorOptions, ESelectorIDs, TSelectorOption } from './Store'
 import OptionComponent from './Components/OptionComponent';
+import axios from 'axios'
 
 
 
@@ -23,7 +24,7 @@ export default function Bulk() {
   const [note, setNote] = useState("")
   const [storageLocation, setStorageLocation] = useState<TSelectorOption>(SelectorOptions.testCenter)
   const [bundle, setBundle] = useState<TSelectorOption>(SelectorOptions.barrel)
-  const [customBundle, setCustomBundle] = useState("")
+  const [customBundle, setCustomBundle] = useState("-")
   const [wastedBy, setWastedBy] = useState<TSelectorOption>(SelectorOptions.clientPickup)
   const [wasteDate, setWasteDate] = useState("")
   const [arrivalDate, setArrivalDate] = useState("")
@@ -53,7 +54,7 @@ export default function Bulk() {
       case ESelectorIDs.bundle:
         setBundle((prevStorageLocation: TSelectorOption): TSelectorOption => {
           if (value !== SelectorOptions.custom.value) {
-            setCustomBundle("")
+            setCustomBundle("-")
           }
           return { ...prevStorageLocation, value: value }
         })
@@ -75,6 +76,41 @@ export default function Bulk() {
 
 
 
+
+  /* Submit */
+  const submitData = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    axios.post('http://localhost:5000/store/bulksolid', {
+      bulkSolidID,
+      description,
+      client,
+      aID,
+      clientContact,
+      msds,
+      exprotection,
+      weight,
+      size,
+      palletCount,
+      archive,
+      note,
+      storageLocation: storageLocation.value,
+      bundle: bundle.value,
+      customBundle,
+      wastedBy: wastedBy.value,
+      wasteDate,
+      arrivalDate,
+      enteredBy,
+    })
+      .then(response => {
+        console.log(response.data)
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+
+
+
   /* Render */
   return (
     /* Show a nice Area for the Form */
@@ -82,7 +118,7 @@ export default function Bulk() {
 
 
       {/* The Form for Pallet  */}
-      <Form>
+      <Form onSubmit={e => submitData(e)} >
 
 
         {/* Headline */}
@@ -394,7 +430,7 @@ export default function Bulk() {
 
           {/* Add to waiting list to place the Pallet with drag and drop in the rack */}
           <Col>
-            <Button variant="primary" block>
+          <Button variant="primary" type="submit" block>
               Add to waiting list
             </Button>
           </Col>
