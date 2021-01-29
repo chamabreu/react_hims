@@ -3,8 +3,9 @@ import { Link, Route, Switch } from 'react-router-dom';
 import Lager from './Lager/Lager';
 import whiteboard from './Assets/210125_scratch_1.jpg'
 import { Container, Navbar, Nav } from 'react-bootstrap';
-import Store from './Store/Store';
+import PalletManager from './Pallet/PalletManager';
 import Search from './Search/Search';
+import Bulksolid from './Bulksolid/Bulksolid';
 
 function App() {
   return (
@@ -23,7 +24,10 @@ function App() {
           <Link to="/lager" className="customlink navlink">Lager</Link>
         </Nav>
         <Nav className="align-self-stretch flex-grow-1 mx-3">
-          <Link to="/store" className="customlink navlink">Store</Link>
+          <Link to="/pallet" className="customlink navlink">Pallet</Link>
+        </Nav>
+        <Nav className="align-self-stretch flex-grow-1 mx-3">
+          <Link to="/bulksolid" className="customlink navlink">Bulk Solid</Link>
         </Nav>
         <Nav className="align-self-stretch flex-grow-1 mx-3">
           <Link to="/search" className="customlink navlink">Search</Link>
@@ -41,9 +45,14 @@ function App() {
           <Lager />
         </Route>
 
-        {/* Storepage to store new items */}
-        <Route path="/store">
-          <Store />
+        {/* Pallet management */}
+        <Route path="/pallet">
+          <PalletManager />
+        </Route>
+        
+        {/* Bulksolid management */}
+        <Route path="/bulksolid">
+          <Bulksolid />
         </Route>
 
         {/* Searchpage to search items */}

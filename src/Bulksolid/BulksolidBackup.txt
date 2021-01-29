@@ -1,34 +1,33 @@
 /* Imports */
 import React, { useState } from "react";
 import { Button, Col, Form, Jumbotron, Row } from "react-bootstrap";
-import { SelectorOptions, ESelectorIDs, TSelectorOption } from './Store'
-import OptionComponent from './Components/OptionComponent';
+import { SelectorOptions, ESelectorIDs, TSelectorOption } from '../Interfaces/Interfaces'
+import OptionComponent from '../Components/OptionComponent';
 import axios from 'axios'
 
 
 
 /* Component */
-export default function Bulk() {
+export default function Bulksolid() {
   /* States. Should get them out with useContext or useReducer */
-  const [bulkSolidID, setBulkSolidID] = useState(0)
-  const [description, setDescription] = useState("")
-  const [client, setClient] = useState("")
-  const [aID, setAID] = useState("")
-  const [clientContact, setClientContact] = useState("")
   const [msds, setMsds] = useState(false)
   const [exprotection, setExprotection] = useState(false)
-  const [weight, setWeight] = useState(0)
-  const [size, setSize] = useState(0)
-  const [palletCount, setPalletCount] = useState(1)
-  const [archive, setArchive] = useState(false)
   const [note, setNote] = useState("")
-  const [storageLocation, setStorageLocation] = useState<TSelectorOption>(SelectorOptions.testCenter)
-  const [bundle, setBundle] = useState<TSelectorOption>(SelectorOptions.barrel)
-  const [customBundle, setCustomBundle] = useState("-")
-  const [wastedBy, setWastedBy] = useState<TSelectorOption>(SelectorOptions.clientPickup)
-  const [wasteDate, setWasteDate] = useState("")
-  const [arrivalDate, setArrivalDate] = useState("")
   const [enteredBy, setEnteredBy] = useState("")
+
+
+  
+  // const [client, setClient] = useState("")
+  // const [clientContact, setClientContact] = useState("")
+  // const [weight, setWeight] = useState(0)
+  // const [size, setSize] = useState(0)
+  // const [palletCount, setPalletCount] = useState(1)
+  // const [archive, setArchive] = useState(false)
+  // const [storageLocation, setStorageLocation] = useState<TSelectorOption>(SelectorOptions.testCenter)
+  // const [bundle, setBundle] = useState<TSelectorOption>(SelectorOptions.barrel)
+  // const [customBundle, setCustomBundle] = useState("-")
+  // const [wastedBy, setWastedBy] = useState<TSelectorOption>(SelectorOptions.clientPickup)
+  // const [wasteDate, setWasteDate] = useState("")
 
 
 
@@ -125,32 +124,9 @@ export default function Bulk() {
         <h2><strong>New bulk solid</strong></h2>
 
 
-        {/* Bulk number */}
-        <Form.Group as={Row} controlId="bulkSolidID">
-          <Form.Label column lg={2}>Bulk solid ID</Form.Label>
-          <Col>
-            <Form.Control
-              type="number"
-              placeholder="Bulk solid ID"
-              value={bulkSolidID}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setBulkSolidID(parseInt(e.target.value)) }}
-            />
-          </Col>
-        </Form.Group>
 
 
-        {/* Value for the Workflow */}
-        <Form.Group as={Row} controlId="description">
-          <Form.Label column lg={2}>Description</Form.Label>
-          <Col>
-            <Form.Control
-              type="text"
-              placeholder="Description"
-              value={description}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDescription(e.target.value)}
-            />
-          </Col>
-        </Form.Group>
+
 
 
         {/* Client or Company */}
@@ -167,18 +143,6 @@ export default function Bulk() {
         </Form.Group>
 
 
-        {/* Ordernumber */}
-        <Form.Group as={Row} controlId="aID">
-          <Form.Label column lg={2}>A-ID</Form.Label>
-          <Col>
-            <Form.Control
-              type="text"
-              placeholder="A-ID"
-              value={aID}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAID(e.target.value)}
-            />
-          </Col>
-        </Form.Group>
 
 
         {/* Client contact, email, name, phone */}
@@ -383,17 +347,6 @@ export default function Bulk() {
         </Form.Group>
 
 
-        {/* Arrival Date */}
-        <Form.Group as={Row} controlId="arrival">
-          <Form.Label column lg={2}>Bulk arrival</Form.Label>
-          <Col>
-            <Form.Control
-              type="date"
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setArrivalDate(e.target.value)}
-              value={arrivalDate}
-            />
-          </Col>
-        </Form.Group>
 
 
         {/* Notes textarea */}
@@ -454,3 +407,4 @@ export default function Bulk() {
     </Jumbotron>
   )
 };
+
