@@ -37,6 +37,7 @@ export default function RackColComponent(props: { field: string, layer: string }
     if (occupied) {
       setCotainedBulkSolid(() => {
         const bulkSolidID = fieldContents[thisFieldID]
+        console.log(allBulkSolids.filter(bulkSolid => bulkSolid.bulkSolidID === bulkSolidID)[0])
         return allBulkSolids.filter(bulkSolid => bulkSolid.bulkSolidID === bulkSolidID)[0]
       })
     } else {
@@ -68,7 +69,7 @@ export default function RackColComponent(props: { field: string, layer: string }
     const itemID = bulkSolidData.bulkSolidID
     const fieldID = e.currentTarget.id
 
-    // console.log(fieldID, itemID)
+    console.log(fieldID, itemID)
 
     axios.post('http://localhost:5000/store/movebulksolid', {
       sourceItemID: itemID,
@@ -78,6 +79,7 @@ export default function RackColComponent(props: { field: string, layer: string }
       .then(response => {
         // console.log(response.data)
         if (response.data.updatedRack) {
+          console.log('rackdispatch with', response.data.updatedRack.rackFields)
           const rackFields = response.data.updatedRack.rackFields
           rackDispatch({ type: 'setFieldContents', payload: rackFields })
         }
@@ -117,14 +119,25 @@ export default function RackColComponent(props: { field: string, layer: string }
         to={`/lager/${rackName}/${shelf}${props.field}_${props.layer}`}
         className={`field ${occupied ? "occupied" : ""}`}
       >
-        <div style={{ pointerEvents: 'none' }}>
-          <div>{shelf}{props.field}_{props.layer}</div>
-          <div>
-            {occupied
-              ? `BulkSolidData: ${containedBulkSolid?.bulkSolidID}`
-              : "Empty"
-            }
+        <div style={{ pointerEvents: 'none' }} className='d-flex justify-content-between flex-grow-1'>
+          <div className='d-flex flex-column justify-content-center flex-grow-1'>
 
+            <div>{shelf}{props.field}_{props.layer}</div>
+            <div>
+              {occupied
+                ? `ID: ${containedBulkSolid?.bulkSolidID}`
+                : "Empty"
+              }
+
+            </div>
+          </div>
+
+
+          <div className='d-flex justify-content-center flex-grow-1'>
+            {containedBulkSolid?.pictureFile
+              ? <img style={{ width: '90px' }} src={`http://localhost:5000/${containedBulkSolid?.pictureFile}`} alt="NoPic" />
+              : null
+            }
           </div>
         </div>
       </Link>

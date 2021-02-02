@@ -1,7 +1,6 @@
 .field {
   height: 100px;
   display: flex;
-  justify-content: center;
   align-items: center;
   background: rgb(150, 255, 150);
   border: 1px solid black;

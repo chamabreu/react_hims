@@ -11,6 +11,12 @@ const BulkSolidReducer = (state: BulkSolidState, action: BulkSolidActions) => {
     case 'textField':
       return { ...state, [action.fieldID]: action.payload }
 
+    case 'pictureUpload':
+      return { ...state, [action.fieldID]: action.payload }
+
+    case 'msdsUpload':
+      return { ...state, [action.fieldID]: action.payload }
+
     case 'checkBox':
       return { ...state, [action.fieldID]: action.payload }
 
@@ -30,6 +36,10 @@ const BulkSolidReducer = (state: BulkSolidState, action: BulkSolidActions) => {
 type BulkSolidActions =
   /* type textfield expects a payload string */
   | { type: 'textField', fieldID: string, payload: string }
+  /* type pictureUpload expects a file */
+  | { type: 'pictureUpload', fieldID: string, payload?: File }
+  /* type msdsUpload expects a file */
+  | { type: 'msdsUpload', fieldID: string, payload?: File }
   /* type checkbox expects a payload boolean */
   | { type: 'checkBox', fieldID: string, payload: boolean }
   /* set bulkdSolidID number */
@@ -52,9 +62,9 @@ export type BulkSolidState = {
   enteredBy: string,
   exprotection: boolean,
   msds: boolean,
-  msdsFile: string,
+  msdsFile?: File,
   note: string,
-  pictureFile: string
+  pictureFile?: File
 
 }
 
@@ -63,17 +73,17 @@ export type BulkSolidState = {
 const BulkSolidInitState = {
   bulkSolidID: -1,
   aID: "",
-  arrivalDate: "",
+  arrivalDate: "2020-12-24",
   bulkSolidShape: "",
   casNumber: "",
   density: "",
-  description: "",
-  enteredBy: "",
+  description: "D",
+  enteredBy: "jmb",
   exprotection: false,
   msds: false,
-  msdsFile: "in progress",
-  note: "",
-  pictureFile: "in progress",
+  msdsFile: undefined,
+  note: "D",
+  pictureFile: undefined,
 }
 
 
@@ -97,7 +107,6 @@ export default function Bulksolid() {
   useEffect(() => {
     if (state.bulkSolidID === -1) {
 
-      console.warn("RERENDERING BULKDSOLIDFORM")
       axios.get("http://localhost:5000/store/newbulksolidid")
         .then((response) => {
           /* response.data contains a lastCounterValue which is the last bulksolidid which was registered */
@@ -117,10 +126,26 @@ export default function Bulksolid() {
     setIsLoading(true)
     setApiMessage("")
 
+    const bulkSolidPicture = state.pictureFile
+    const msdsFile = state.msdsFile
 
-    axios.post('http://localhost:5000/store/bulksolid', { ...state })
+    const formData = new FormData()
+
+
+    if (bulkSolidPicture) {
+      formData.append("bulkSolidPicture", bulkSolidPicture)
+    }
+
+    if (msdsFile) {
+      formData.append("msdsFile", msdsFile)
+    }
+
+    formData.append('bulkSolidData', JSON.stringify(state))
+
+
+    axios.post('http://localhost:5000/store/bulksolid', formData)
       .then(response => {
-        console.log(response.data)
+        console.log(response)
         setApiMessage("Saved")
         setIsLoading(false)
       })
@@ -129,6 +154,7 @@ export default function Bulksolid() {
         setApiMessage("Error")
         setIsLoading(false)
       })
+
   }
 
 

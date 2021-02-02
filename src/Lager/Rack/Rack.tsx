@@ -4,7 +4,7 @@ import React, { useContext, useEffect } from 'react'
 import { Col, Row } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { BulkSolidState } from '../../Bulksolid/Bulksolid';
-import { RackDispatchContext } from './RackRoutes';
+import { RackDispatchContext, RackStateContext } from './RackRoutes';
 import RackRowComponent from './RackRowComponent';
 
 /* Type definitions */
@@ -24,6 +24,7 @@ interface IParams {
 /* Component */
 export default function Rack() {
   const dispatch = useContext(RackDispatchContext)
+  const rackState = useContext(RackStateContext)
 
 
   /* Get the rackname from the URL-Params */
@@ -63,7 +64,7 @@ export default function Rack() {
         }
       })
 
-  }, [rackName, dispatch])
+  }, [rackName, dispatch, rackState.fieldContents ])
 
 
 

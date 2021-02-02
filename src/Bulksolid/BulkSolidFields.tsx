@@ -27,9 +27,7 @@ export default function BulkSolidFields() {
   /* Deconstruct all states for the input fields */
   const {
     bulkSolidID,
-    pictureFile,
     note,
-    msdsFile,
     msds,
     exprotection,
     enteredBy,
@@ -210,11 +208,21 @@ export default function BulkSolidFields() {
       <Form.Group as={Row} controlId={FieldIDs.msdsFile} >
         <Form.Label column lg={2}>Upload MSDS</Form.Label>
         <Col>
-          <Form.Control
-            type="text"
-            value={msdsFile}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => changeHandler({ type: "textField", fieldID: FieldIDs.msdsFile, payload: e.target.value })}
-            readOnly
+        <Form.Control
+            type="file"
+            multiple={false}
+            accept=".jpg, .jpeg, .png"
+
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              const uploadedMsdsFile = e.target.files ? e.target.files[0] : undefined
+
+              if (uploadedMsdsFile) {
+                changeHandler({ type: "msdsUpload", fieldID: FieldIDs.msdsFile, payload: uploadedMsdsFile})
+              }else {
+                changeHandler({ type: "msdsUpload", fieldID: FieldIDs.msdsFile, payload: undefined})
+              }
+            }}
+
           />
         </Col>
       </Form.Group >
@@ -226,10 +234,19 @@ export default function BulkSolidFields() {
         <Form.Label column lg={2}>Upload Picture</Form.Label>
         <Col>
           <Form.Control
-            type="text"
-            value={pictureFile}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => changeHandler({ type: "textField", fieldID: FieldIDs.pictureFile, payload: e.target.value })}
-            readOnly
+            type="file"
+            multiple={false}
+            accept='.pdf, .png, .jpg, .jpeg'
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              const uploadedImage = e.target.files ? e.target.files[0] : undefined
+
+              if (uploadedImage) {
+                changeHandler({ type: "pictureUpload", fieldID: FieldIDs.pictureFile, payload: uploadedImage})
+              }else {
+                changeHandler({ type: "pictureUpload", fieldID: FieldIDs.pictureFile, payload: undefined})
+              }
+            }}
+
           />
         </Col>
       </Form.Group >

@@ -2,7 +2,6 @@
 import { useContext, useEffect, useState } from "react"
 import { Button, Col, Row } from "react-bootstrap"
 import { useParams, useHistory } from "react-router-dom"
-import honey from '../../Assets/honey.jpg'
 import { BulkSolidState } from "../../Bulksolid/Bulksolid"
 import { RackStateContext } from "./RackRoutes"
 
@@ -61,7 +60,7 @@ export default function Field() {
         {/* Placed dummy data for example. Needs to get build further. */}
         <Row>
           <Col className='col-4'>
-            <img className="fieldimage" src={honey} alt="honeypic" />
+            <img className="fieldimage" src={`http://localhost:5000/${bulkSolid.pictureFile}`} alt="NoPic" />
           </Col>
 
 
