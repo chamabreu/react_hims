@@ -12,6 +12,7 @@ export default function PalletManager() {
   return (
 
     <Container>
+      <h1>THIS IS OUT OF FUNCTION FOR NOW</h1>
       <h3>Below is going to be a list of Pallets.</h3>
       <hr></hr>
       <hr></hr>

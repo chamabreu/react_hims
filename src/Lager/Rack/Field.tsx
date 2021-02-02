@@ -1,7 +1,10 @@
 /* Imports */
-import { Button, Col, Container, Row } from "react-bootstrap"
+import { useContext, useEffect, useState } from "react"
+import { Button, Col, Row } from "react-bootstrap"
 import { useParams, useHistory } from "react-router-dom"
 import honey from '../../Assets/honey.jpg'
+import { BulkSolidState } from "../../Bulksolid/Bulksolid"
+import { RackStateContext } from "./RackRoutes"
 
 /* Type definitions */
 /*
@@ -20,50 +23,87 @@ interface IParams {
 
 /* Component */
 export default function Field() {
+  const rackState = useContext(RackStateContext)
   /* Deconstructing the field from URL-Params */
   const { field } = useParams<IParams>()
+  const [bulkSolid, setBulkSolid] = useState<BulkSolidState>()
+  const history = useHistory()
+
+
+  useEffect(() => {
+    const bulkSolidID = rackState.fieldContents[field]
+    const bulkSolidData = rackState.allBulkSolids.filter(bulkSolid => bulkSolid.bulkSolidID === bulkSolidID)[0]
+    setBulkSolid(bulkSolidData)
+  }, [field, rackState])
 
 
 
-  /* Render */
-  return (
-    /* The Field Container */
-    <Container>
+  if (bulkSolid) {
 
-      {/* Button to go back to Rack */}
-      <Row className="justify-content-center">
-        <Button onClick={useHistory().goBack}>Back to Rack</Button>
-      </Row>
+    /* Render */
+    return (
+      /* The Field Container */
+      <>
 
-
-      {/* Name of the Field */}
-      <Row>
-        <h1>{field}</h1>
-      </Row>
+        {/* Button to go back to Rack */}
+        <Row>
+          <Button onClick={history.goBack}>Back to Rack</Button>
+        </Row>
 
 
-      {/* More Details of the field contents */}
-      {/* Placed dummy data for example. Needs to get build further. */}
-      <Row>
-        <Col>
-          <img className="fieldimage" src={honey} alt="honeypic" />
-        </Col>
+        {/* Name of the Field */}
+        <Row>
+          <h3>Rack Field: {field}</h3>
+        </Row>
 
 
-        <Col>
-          <h3>Honey</h3>
-          <p>In Stock: 2</p>
-        </Col>
+        {/* More Details of the field contents */}
+        {/* Placed dummy data for example. Needs to get build further. */}
+        <Row>
+          <Col className='col-4'>
+            <img className="fieldimage" src={honey} alt="honeypic" />
+          </Col>
 
 
-        <Col className="d-flex flex-column justify-content-around">
-          <Button>Store</Button>
-          <Button>Take</Button>
-          <Button>Move</Button>
-        </Col>
+          <Col>
+            <div><strong>Bulk solid ID:</strong> {bulkSolid.bulkSolidID}</div>
+            <div><strong>Description:</strong> {bulkSolid.description}</div>
+            <div><strong>MSDS Sheet Available:</strong> {bulkSolid.msds ? "Yes" : "No"}</div>
+            <div><strong>Explosion Protection:</strong> {bulkSolid.exprotection ? "Yes" : "No"}</div>
+            <div><strong>Bulk Arrival:</strong> {bulkSolid.arrivalDate}</div>
+            <div><strong>Note:</strong> {bulkSolid.note}</div>
+            <div><strong>A-ID:</strong> {bulkSolid.aID}</div>
+            <div><strong>CAS-Number:</strong> {bulkSolid.casNumber}</div>
+            <div><strong>Density:</strong> {bulkSolid.density}</div>
+            <div><strong>Bulk solid shape:</strong> {bulkSolid.bulkSolidShape}</div>
+            <div><strong>Link to MSDS file:</strong> {bulkSolid.msdsFile}</div>
+            <div><strong>Link to Picture:</strong> {bulkSolid.pictureFile}</div>
+            <div><strong>Entered by:</strong> {bulkSolid.enteredBy}</div>
+          </Col>
 
-      </Row>
 
-    </Container>
-  )
+
+        </Row>
+        <Row className='justify-content-around mt-3'>
+          <Button onClick={_ => alert("Out of Function :-)")}>Store</Button>
+          <Button onClick={_ => alert("Out of Function :-)")}>Take</Button>
+          <Button onClick={_ => alert("Out of Function :-)")}>Move</Button>
+        </Row>
+
+      </>
+    )
+  } else {
+    return (
+
+      <>
+        {/* Button to go back to Rack */}
+        <Row>
+          <Button onClick={history.goBack}>Back to Rack</Button>
+        </Row>
+        <div>
+          Nothing in here
+        </div>
+      </>
+    )
+  }
 };
