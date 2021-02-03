@@ -2,7 +2,7 @@
 import { useContext, useEffect, useState } from "react"
 import { Button, Col, Row } from "react-bootstrap"
 import { useParams, useHistory } from "react-router-dom"
-import { BulkSolidState } from "../../Bulksolid/Bulksolid"
+import { TBulkSolid } from "../../Bulksolid/BulkSolidForm"
 import { RackStateContext } from "./RackRoutes"
 
 /* Type definitions */
@@ -22,25 +22,36 @@ interface IParams {
 
 /* Component */
 export default function Field() {
+  /* Get Context of RackState */
   const rackState = useContext(RackStateContext)
+
   /* Deconstructing the field from URL-Params */
   const { field } = useParams<IParams>()
-  const [bulkSolid, setBulkSolid] = useState<BulkSolidState>()
+  /* Get the History to 'go back' */
   const history = useHistory()
 
+  /* useState for specified bulkSolid in this field */
+  const [bulkSolid, setBulkSolid] = useState<TBulkSolid>()
 
+
+  /*
+  if field (url) or RackState changes, this rerenders
+  on rerender it sets the bulkSolid for the field
+  */
   useEffect(() => {
     const bulkSolidID = rackState.fieldContents[field]
     const bulkSolidData = rackState.allBulkSolids.filter(bulkSolid => bulkSolid.bulkSolidID === bulkSolidID)[0]
     setBulkSolid(bulkSolidData)
-  }, [field, rackState])
+  }, [field, rackState.fieldContents, rackState.allBulkSolids])
 
 
-
+  /* Conditinal Render Logic */
+  /* if there is a bulkSolid in this field... */
   if (bulkSolid) {
 
-    /* Render */
+    /* Render WITH bulksolid content */
     return (
+
       /* The Field Container */
       <>
 
@@ -56,14 +67,16 @@ export default function Field() {
         </Row>
 
 
-        {/* More Details of the field contents */}
-        {/* Placed dummy data for example. Needs to get build further. */}
+        {/* Details of the bulk solid content */}
         <Row>
+
+
+          {/* an image if available */}
           <Col className='col-4'>
             <img className="fieldimage" src={`http://localhost:5000/${bulkSolid.pictureFile}`} alt="NoPic" />
           </Col>
 
-
+          {/* show the details that are wanted */}
           <Col>
             <div><strong>Bulk solid ID:</strong> {bulkSolid.bulkSolidID}</div>
             <div><strong>Description:</strong> {bulkSolid.description}</div>
@@ -80,9 +93,9 @@ export default function Field() {
             <div><strong>Entered by:</strong> {bulkSolid.enteredBy}</div>
           </Col>
 
-
-
         </Row>
+
+        {/* Buttons to add additional functionality - for now they are 'out of order' */}
         <Row className='justify-content-around mt-3'>
           <Button onClick={_ => alert("Out of Function :-)")}>Store</Button>
           <Button onClick={_ => alert("Out of Function :-)")}>Take</Button>
@@ -91,7 +104,12 @@ export default function Field() {
 
       </>
     )
+
+
+    /* if there is NO bulksolid in this field, give an empy field back */
   } else {
+
+    /* Render WITHOUT bulksolid content */
     return (
 
       <>
@@ -99,6 +117,8 @@ export default function Field() {
         <Row>
           <Button onClick={history.goBack}>Back to Rack</Button>
         </Row>
+
+        {/* notify user that this field is empty */}
         <div>
           Nothing in here
         </div>

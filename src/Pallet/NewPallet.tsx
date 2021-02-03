@@ -1,7 +1,7 @@
 /* Imports */
 import React, { useState } from "react";
 import { Button, Col, Form, Jumbotron, Row } from "react-bootstrap";
-import { SelectorOptions, TSelectorOption, ESelectorIDs } from '../Interfaces/Interfaces';
+import { SelectorOptions, TSelectorOption, ESelectorIDs } from '../Types/SelectTypes';
 import OptionComponent from '../Components/OptionComponent';
 // import axios from 'axios'
 

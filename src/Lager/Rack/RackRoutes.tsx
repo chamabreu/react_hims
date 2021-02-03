@@ -1,16 +1,14 @@
 /* Imports */
 import React, { useReducer } from "react";
 import { Route, Switch } from "react-router-dom";
-import { BulkSolidState } from "../../Bulksolid/Bulksolid";
+import { TBulkSolid } from "../../Bulksolid/BulkSolidForm";
 import Field from "./Field";
 import Rack from "./Rack";
 
-/* Type definitions */
 
 
 
-
-/* REDUCER */
+/* Reducer and Context for Racks */
 
 /* Dispatch handler */
 const RackReducer = (state: RackState, action: RackActions): RackState => {
@@ -36,13 +34,15 @@ const RackReducer = (state: RackState, action: RackActions): RackState => {
   }
 }
 
+/* Actions  */
 type RackActions =
   | { type: "setRackName", payload: string }
   | { type: "setShelf", payload: string }
   | { type: "setFields", payload: { field1: string, field2: string, field3: string } }
   | { type: "setFieldContents", payload: { [key: string]: number } }
-  | { type: "setAllBulkSolids", payload: BulkSolidState[] }
+  | { type: "setAllBulkSolids", payload: TBulkSolid[] }
 
+  /* Rack State Type */
 type RackState = {
   shelf: string,
   fields: {
@@ -52,9 +52,10 @@ type RackState = {
   },
   fieldContents: { [key: string]: number },
   rackName: string,
-  allBulkSolids: BulkSolidState[]
+  allBulkSolids: TBulkSolid[]
 }
 
+/* Init Rack State */
 const RackInitState = {
   shelf: "",
   fields: {
@@ -67,6 +68,7 @@ const RackInitState = {
   allBulkSolids: []
 }
 
+/* Export Contexts */
 export const RackStateContext = React.createContext<RackState>(RackInitState)
 export const RackDispatchContext = React.createContext<React.Dispatch<RackActions>>(() => { })
 
@@ -82,20 +84,18 @@ export default function RackRoutes() {
 
   /* Render */
   return (
+    /* Provide the dispatch and the state in 2 different contexts */
     <RackDispatchContext.Provider value={dispatch}>
       <RackStateContext.Provider value={state}>
         <Switch>
-          {/* Routing to a field */}
-          <Route path="/lager/:rackName/:field">
-            <Field />
-          </Route>
-
 
 
           {/* Routing for a Rack */}
           <Route path="/lager/:rackName">
             <Rack />
           </Route>
+
+
         </Switch>
       </RackStateContext.Provider>
     </RackDispatchContext.Provider>

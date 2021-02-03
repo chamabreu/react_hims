@@ -5,7 +5,7 @@ import whiteboard from './Assets/210125_scratch_1.jpg'
 import { Container, Navbar, Nav } from 'react-bootstrap';
 import PalletManager from './Pallet/PalletManager';
 import Search from './Search/Search';
-import Bulksolid from './Bulksolid/Bulksolid';
+import Bulksolid from './Bulksolid/BulkSolidForm';
 
 function App() {
   return (

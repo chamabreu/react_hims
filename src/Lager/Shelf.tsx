@@ -2,6 +2,8 @@
 import { Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
+
+/* Type Declarations */
 interface IProps {
   shelfname: string
 }

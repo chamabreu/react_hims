@@ -6,7 +6,7 @@ import axios from 'axios';
 
 
 /* Define Reducer Dispatch handler */
-const BulkSolidReducer = (state: BulkSolidState, action: BulkSolidActions) => {
+const BulkSolidReducer = (state: TBulkSolid, action: TBulkSolidActions) => {
   switch (action.type) {
     case 'textField':
       return { ...state, [action.fieldID]: action.payload }
@@ -33,7 +33,7 @@ const BulkSolidReducer = (state: BulkSolidState, action: BulkSolidActions) => {
 }
 
 /* Define actions for the dispatcher */
-type BulkSolidActions =
+type TBulkSolidActions =
   /* type textfield expects a payload string */
   | { type: 'textField', fieldID: string, payload: string }
   /* type pictureUpload expects a file */
@@ -51,7 +51,7 @@ type BulkSolidActions =
 
 
 /* Types of Bulk solid form inputs */
-export type BulkSolidState = {
+export type TBulkSolid = {
   bulkSolidID: number,
   aID: string,
   arrivalDate: string,
@@ -89,8 +89,8 @@ const BulkSolidInitState = {
 
 
 /* Export State and Dispatch Context to call it with useContext()*/
-export const BulkSolidStateContext = React.createContext<BulkSolidState>(BulkSolidInitState)
-export const BulkSolidDispatchContext = React.createContext<React.Dispatch<BulkSolidActions>>(() => { })
+export const BulkSolidFormStateContext = React.createContext<TBulkSolid>(BulkSolidInitState)
+export const BulkSolidFormDispatchContext = React.createContext<React.Dispatch<TBulkSolidActions>>(() => { })
 
 
 
@@ -100,27 +100,41 @@ export default function Bulksolid() {
 
   /* Global state of the form handled by reducer and context */
   const [state, dispatch] = useReducer(BulkSolidReducer, BulkSolidInitState)
+
+  /* local states for user feedback */
   const [isLoading, setIsLoading] = useState(false)
   const [apiMessage, setApiMessage] = useState("")
 
-
+  /* rerendering to watch the bulkSolidID which is autogenreated by backend */
   useEffect(() => {
+    /* if the bulkSolidID is default (-1). This saves some unneeded rerendering*/
     if (state.bulkSolidID === -1) {
 
+      /* get a new bulkSolidID */
       axios.get("http://localhost:5000/store/newbulksolidid")
+
+        /* response handler */
         .then((response) => {
-          /* response.data contains a lastCounterValue which is the last bulksolidid which was registered */
-          /* Set the new bulksolidid to the lastCounterValue + 1 */
+          /*
+            response.data contains a lastCounterValue which is the last bulksolidid which was registered
+            Set the new bulksolidid in this form to the lastCounterValue + 1
+            Through 'updating' the lastCounterValue only in frontend, the backend stays at the old counterValue.
+            if the form gets submitted, the backend compares (THIS ID) with (its ID from Database + 1).
+            if they match it increases the databse counter value and saves the new bulksolid
+          */
           dispatch({ type: "bulksolidid", payload: response.data.lastCounterValue + 1 })
         })
+
+        /* error handler */
         .catch((error) => {
           console.log(error)
+          alert('error, watch console')
         })
     }
   }, [state.bulkSolidID])
 
 
-  /* Submit */
+  /* Submit handler */
   const submitData = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setIsLoading(true)
@@ -158,15 +172,16 @@ export default function Bulksolid() {
   }
 
 
+  /* Conditional Rendering */
   if (!isLoading && (apiMessage === "")) {
 
-    /* Render */
+    /* if the page is not loading and there is no apiMessage */
     return (
       /* Show a nice Area for the Form */
       <Jumbotron fluid className="p-3">
 
 
-        {/* The Form for Pallet  */}
+        {/* The Form for bulk solid */}
         <Form onSubmit={submitData}>
 
 
@@ -175,26 +190,28 @@ export default function Bulksolid() {
 
 
           {/* Input Components handled by context and reducer */}
-          <BulkSolidDispatchContext.Provider value={dispatch}>
-            <BulkSolidStateContext.Provider value={state}>
+          <BulkSolidFormDispatchContext.Provider value={dispatch}>
+            <BulkSolidFormStateContext.Provider value={state}>
 
 
               {/* Outsourced Fields */}
               <BulkSolidFields />
 
 
-            </BulkSolidStateContext.Provider>
-          </BulkSolidDispatchContext.Provider>
+            </BulkSolidFormStateContext.Provider>
+          </BulkSolidFormDispatchContext.Provider>
 
 
           {/* Buttons */}
           <Row>
-            {/* Create a new Bulk solid item and set it to the waitlist */}
+
+            {/* Create a new Bulk solid item. This gets stored with onHold: true so it apperas in OnHoldArea */}
             <Col>
               <Button variant="primary" type="submit" block>
-                Add to waiting list
-            </Button>
+                Add to OnHold Area
+              </Button>
             </Col>
+
           </Row>
 
         </Form>
@@ -203,21 +220,42 @@ export default function Bulksolid() {
     )
 
 
+    /* if page is loading or there is an apiMessag */
   } else {
+
+    /* Render */
     return (
 
       <Jumbotron fluid className="p-3">
+        {/* if isLoading */}
         {isLoading
+
+          /* show Loading */
           ? "Loading..."
+
+          /* else */
           :
           <>
+            {/* show the apiMessage */}
             <div>
-              {apiMessage}
+              <h3>
+                {apiMessage}
+              </h3>
             </div>
+
+            {/* and a button to go back to form */}
             <Button onClick={_ => {
+
+              /* Resets the form to default */
               dispatch({ type: "resetform" })
+
+              /* sets the apiMessage to empty string */
               setApiMessage("")
-            }}>Back</Button>
+
+            }}>
+              Back
+            </Button>
+
           </>
         }
       </Jumbotron>

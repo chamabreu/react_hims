@@ -1,5 +1,5 @@
 /* Imports */
-import { BulkSolidStateContext, BulkSolidDispatchContext } from './Bulksolid'
+import { BulkSolidFormStateContext, BulkSolidFormDispatchContext } from './BulkSolidForm'
 import { Col, Form, Row } from "react-bootstrap";
 import { useContext } from "react";
 
@@ -24,7 +24,7 @@ enum FieldIDs {
 
 /* Component to render all input fields */
 export default function BulkSolidFields() {
-  /* Deconstruct all states for the input fields */
+  /* Deconstruct all states for the input fields from Context */
   const {
     bulkSolidID,
     note,
@@ -37,11 +37,11 @@ export default function BulkSolidFields() {
     bulkSolidShape,
     arrivalDate,
     aID
-  } = useContext(BulkSolidStateContext)
+  } = useContext(BulkSolidFormStateContext)
 
 
   /* get the dispatch handler to handle onChange events */
-  const changeHandler = useContext(BulkSolidDispatchContext)
+  const changeHandler = useContext(BulkSolidFormDispatchContext)
 
   return (
     <>

@@ -1,4 +1,6 @@
+/* Types and Interfaces for the <select> fields */
 
+/* <select> tags */
 export enum ESelectorIDs {
   palletStorageLocation = "palletStorageLocation",
   bulkStorageLocation = "bulkStorageLocation",
@@ -6,12 +8,13 @@ export enum ESelectorIDs {
   wastedBy = "wastedBy",
 }
 
+/* <select> <option> type definition */
 export type TSelectorOption = {
   text: string,
   value: string
 }
 
-
+/* <select> <option> options */
 export const SelectorOptions = {
   get testCenter() {
     return ({text: "TestCenter", value: "testCenter"})

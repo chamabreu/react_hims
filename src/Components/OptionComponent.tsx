@@ -1,5 +1,5 @@
 /* Imports */
-import { TSelectorOption } from "../Interfaces/Interfaces"
+import { TSelectorOption } from "../Types/SelectTypes"
 
 
 /* Type Definitions */
