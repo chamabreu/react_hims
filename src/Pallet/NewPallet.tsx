@@ -1,12 +1,12 @@
 /* Imports */
 import React, { useState } from "react";
 import { Button, Col, Form, Jumbotron, Row } from "react-bootstrap";
-import { SelectorOptions, TSelectorOption, ESelectorIDs } from './Store';
-import OptionComponent from './Components/OptionComponent';
-import axios from 'axios'
+import { SelectorOptions, TSelectorOption, ESelectorIDs } from '../Types/SelectTypes';
+import OptionComponent from '../Components/OptionComponent';
+// import axios from 'axios'
 
 /* Component */
-export default function Pallet() {
+export default function NewPallet() {
   /* States */
   const [palletID, setPalletID] = useState("")
   const [releasedFromStock, setReleasedFromStock] = useState(false)
@@ -46,19 +46,20 @@ export default function Pallet() {
   /* Submit */
   const submitData = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    axios.post('http://localhost:5000/store/pallet', {
-      palletID,
-      releasedFromStock,
-      note,
-      storageLocation: storageLocation.value,
-      enteredBy,
-    })
-      .then(response => {
-        console.log(response.data)
-      })
-      .catch(error => {
-        console.log(error)
-      })
+    alert("Out of Function ;-)")
+    // axios.post(process.env.REACT_APP_API + '/api/store/pallet', {
+    //   palletID,
+    //   releasedFromStock,
+    //   note,
+    //   storageLocation: storageLocation.value,
+    //   enteredBy,
+    // })
+    //   .then(response => {
+    //     console.log(response.data)
+    //   })
+    //   .catch(error => {
+    //     console.log(error)
+    //   })
   }
 
 
@@ -218,16 +219,6 @@ a waiting list and drag and drop */}
           </Col>
 
 
-          {/* Reset the Form */}
-          <Col>
-            <Row className="mb-2">
-              <Button variant="danger" type="reset" block>
-                Reset Content
-              </Button>
-
-            </Row>
-
-          </Col>
         </Row>
 
 

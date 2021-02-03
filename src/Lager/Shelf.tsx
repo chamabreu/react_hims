@@ -2,6 +2,8 @@
 import { Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
+
+/* Type Declarations */
 interface IProps {
   shelfname: string
 }
@@ -24,8 +26,10 @@ export default function Shelf(
   function RackComponent(props: { position: string }) {
     return (
       /* Returns a Cell which contains the Name of the rack */
-      <Link className="customlink rack d-flex justify-content-center align-items-center" to={`/lager/${shelfname}${props.position}`}>
-        {shelfname}{props.position}.X
+      <Link to={`/lager/${shelfname}${props.position}`}>
+        <div className='field'>
+          Rack {shelfname}{props.position}
+        </div>
       </Link>
     )
   }
@@ -34,15 +38,15 @@ export default function Shelf(
 
   /* RENDER */
   return (
-    <Col className="d-flex flex-column">
-      
+    <Col>
+
       {/* Name of Shelf above the shelf */}
-      <div className="align-self-center">
+      <div>
         <h3>{shelfname}</h3>
       </div>
 
       {/* Create the shelf with its 4 Racks */}
-      <div className="shelf">
+      <div>
         <RackComponent position="10-11-12" />
         <RackComponent position="07-08-09" />
         <RackComponent position="04-05-06" />

@@ -1,73 +1,72 @@
-.shelf {
-  background: rgb(187, 187, 187);
-  padding: 5px;
-}
-
-.rack {
-  width: 100%;
+.field {
   height: 100px;
-  background: lightcoral;
+  display: flex;
+  align-items: center;
+  background: rgb(150, 255, 150);
   border: 1px solid black;
+  margin: 1px;
   font-weight: 600;
-  color: black
 }
 
-.rack:hover {
-  background: rgb(243, 155, 155);
+.field.occupied {
+  background: rgb(255, 118, 118);
 }
 
-
-
-.rackrow {
-  height: 100px;
+.field:hover {
+  opacity: 0.5;
 }
 
-.rackcol {
-  background: lightcoral;
-  border: 1px solid black;
-  height: 100%;
-  display: block;
-  font-weight: 600;
-  color: black
+.field.dragover {
+  opacity: 0.5;
 }
 
-.rackcol:hover {
-  background: rgb(243, 155, 155);
+a {
+  text-decoration: inherit;
+  color: inherit;
 }
 
+a:hover {
+  text-decoration: inherit;
+  color: inherit;
+}
 
 .fieldimage {
-  width: 200px;
+  width: 100%;
 }
 
-.racknavbutton {
-  height: 100%;
-  flex-grow: 1;
+
+.navbutton {
+  background: lightblue;
+  margin: 0 5px;
+  border-radius: 5px;
+  box-shadow: 0 0 2px 2px rgb(218, 218, 218);
 }
 
-.customlink {
-  text-decoration: none;
-  color: inherit;
-}
+.navbutton:hover {
+  background: rgb(192, 221, 231);
 
-.customlink:hover {
-  text-decoration: none;
-  color: inherit;
 }
 
 .navlink {
+  flex-grow: 1;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 10px;
-  box-shadow: 0px 0px 1px 1px rgba(163, 163, 163, 0.466);
-  flex-grow: 1;
+
 }
 
-.productswitchrow {
-  height: 30px;
+.onholdarea {
+  /* background: rgb(240, 240, 240); */
+  padding: 5px;
 }
 
-.productswitch {
-  flex-grow: 1;
+.holdcard {
+  user-select: none;
+  background: lightgreen;
+  border: 1px solid gray;
+  border-radius: 5px;
+  padding: 5px;
+  box-shadow: 0 0 2px 2px rgba(99, 121, 99, 0.308) ;
+  margin: 10px 0;
+
 }

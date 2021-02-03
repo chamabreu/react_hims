@@ -1,10 +1,11 @@
 import React from 'react';
 import { Link, Route, Switch } from 'react-router-dom';
-import Lager from './Lager/Lager';
+import LagerRoutes from './Lager/LagerRoutes';
 import whiteboard from './Assets/210125_scratch_1.jpg'
 import { Container, Navbar, Nav } from 'react-bootstrap';
-import Store from './Store/Store';
+import PalletManager from './Pallet/PalletManager';
 import Search from './Search/Search';
+import Bulksolid from './Bulksolid/BulkSolidForm';
 
 function App() {
   return (
@@ -14,19 +15,22 @@ function App() {
       <Navbar bg="light">
 
         <Navbar.Brand>
-          <Link className="customlink" to="/">
+          <Link to="/">
             HIMS
           </Link>
         </Navbar.Brand>
 
-        <Nav className="align-self-stretch flex-grow-1 mx-3">
-          <Link to="/lager" className="customlink navlink">Lager</Link>
+        <Nav className='flex-grow-1 align-self-stretch navbutton'>
+          <Link to="/lager" className='navlink'>Lager</Link>
         </Nav>
-        <Nav className="align-self-stretch flex-grow-1 mx-3">
-          <Link to="/store" className="customlink navlink">Store</Link>
+        <Nav className='flex-grow-1 align-self-stretch navbutton'>
+          <Link to="/pallet" className='navlink'>Pallet</Link>
         </Nav>
-        <Nav className="align-self-stretch flex-grow-1 mx-3">
-          <Link to="/search" className="customlink navlink">Search</Link>
+        <Nav className='flex-grow-1 align-self-stretch navbutton'>
+          <Link to="/bulksolid" className='navlink'>Bulk Solid</Link>
+        </Nav>
+        <Nav className='flex-grow-1 align-self-stretch navbutton'>
+          <Link to="/search" className='navlink'>Search</Link>
         </Nav>
 
       </Navbar>
@@ -38,12 +42,17 @@ function App() {
 
         {/* Sub routings if /lager are managed in Lager Component */}
         <Route path="/lager">
-          <Lager />
+          <LagerRoutes />
         </Route>
 
-        {/* Storepage to store new items */}
-        <Route path="/store">
-          <Store />
+        {/* Pallet management */}
+        <Route path="/pallet">
+          <PalletManager />
+        </Route>
+        
+        {/* Bulksolid management */}
+        <Route path="/bulksolid">
+          <Bulksolid />
         </Route>
 
         {/* Searchpage to search items */}
