@@ -15,7 +15,7 @@ export default function OnHold() {
   useEffect(() => {
 
     /* request to onhold */
-    axios.get("http://localhost:5000/api/onhold")
+    axios.get(process.env.REACT_APP_API + '/api/onhold')
 
       /* handle response */
       .then(response => {

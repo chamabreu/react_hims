@@ -71,7 +71,7 @@ export default function Rack() {
      */
 
     /* the get request */
-    axios.get('http://localhost:5000/api/store/rackdetails',
+    axios.get(process.env.REACT_APP_API + '/api/store/rackdetails',
       /* give the rackName as parameter */
       { params: { rackName } }
     )
