@@ -87,7 +87,7 @@ export default function RackColComponent(props: { field: string, layer: string }
     const fieldID = e.currentTarget.id
 
     /* send a request to handle the relations in the database */
-    axios.post('http://localhost:5000/store/movebulksolid', {
+    axios.post('http://localhost:5000/api/store/movebulksolid', {
       /* send the needed data */
       sourceItemID: itemID,
       targetFieldID: fieldID,
@@ -186,7 +186,7 @@ export default function RackColComponent(props: { field: string, layer: string }
           {/* show the picture of the content, or nothing */}
           <div className='d-flex justify-content-center flex-grow-1'>
             {containedBulkSolid?.pictureFile
-              ? <img style={{ width: '90px' }} src={`http://localhost:5000/${containedBulkSolid?.pictureFile}`} alt="NoPic" />
+              ? <img style={{ width: '90px' }} src={`http://localhost:5000/api/${containedBulkSolid?.pictureFile}`} alt="NoPic" />
               : null
             }
           </div>

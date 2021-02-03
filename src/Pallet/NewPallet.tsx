@@ -47,7 +47,7 @@ export default function NewPallet() {
   const submitData = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     alert("Out of Function ;-)")
-    // axios.post('http://localhost:5000/store/pallet', {
+    // axios.post('http://localhost:5000/api/store/pallet', {
     //   palletID,
     //   releasedFromStock,
     //   note,

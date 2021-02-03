@@ -111,7 +111,7 @@ export default function Bulksolid() {
     if (state.bulkSolidID === -1) {
 
       /* get a new bulkSolidID */
-      axios.get("http://localhost:5000/store/newbulksolidid")
+      axios.get("http://localhost:5000/api/store/newbulksolidid")
 
         /* response handler */
         .then((response) => {
@@ -157,7 +157,7 @@ export default function Bulksolid() {
     formData.append('bulkSolidData', JSON.stringify(state))
 
 
-    axios.post('http://localhost:5000/store/bulksolid', formData)
+    axios.post('http://localhost:5000/api/store/bulksolid', formData)
       .then(response => {
         console.log(response)
         setApiMessage("Saved")

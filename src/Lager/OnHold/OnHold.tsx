@@ -15,12 +15,14 @@ export default function OnHold() {
   useEffect(() => {
 
     /* request to onhold */
-    axios.get("http://localhost:5000/onhold")
+    axios.get("http://localhost:5000/api/onhold")
 
       /* handle response */
       .then(response => {
         /* if there are items onHold */
         if (response.data.length !== 0) {
+          console.log("Got some Data ???")
+          console.log(response)
           /* set the state */
           setHoldItems(response.data)
         }

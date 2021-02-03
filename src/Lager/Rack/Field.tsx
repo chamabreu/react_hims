@@ -73,7 +73,7 @@ export default function Field() {
 
           {/* an image if available */}
           <Col className='col-4'>
-            <img className="fieldimage" src={`http://localhost:5000/${bulkSolid.pictureFile}`} alt="NoPic" />
+            <img className="fieldimage" src={`http://localhost:5000/api/${bulkSolid.pictureFile}`} alt="NoPic" />
           </Col>
 
           {/* show the details that are wanted */}
