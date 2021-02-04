@@ -53,9 +53,9 @@ export default function OnHold() {
       <div className='onholdarea'>
 
         {/* create for each item in the holdItems state a new OnHoldCard to list it here */}
-        {onHoldList
+        {onHoldList && onHoldList.length !== 0
           ? onHoldList.map((aHoldItem) => <OnHoldCard key={aHoldItem.bulkSolidID} holdItem={aHoldItem} />)
-          : null
+          : <div className='onholdempty'>Every item is stored in your racks. Tidy and clean!</div>
         }
 
       </div>

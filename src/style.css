@@ -92,6 +92,16 @@ a:hover {
   padding: 5px 15px;
 }
 
+.onholdempty {
+  user-select: none;
+  color: white;
+  background: var(--pbright20ow);
+  border: 1px solid var(--pbright40ow);
+  border-radius: 5px;
+  padding: 5px;
+  margin: 10px 0;
+}
+
 .holdcard {
   user-select: none;
   color: white;
