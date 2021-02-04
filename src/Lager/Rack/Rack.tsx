@@ -1,11 +1,11 @@
 /* Imports */
-import axios from 'axios';
+import * as API from '../../APICalls/API'
 import React, { useContext, useEffect } from 'react'
 import { Row } from "react-bootstrap";
 import { Route, Switch, useParams } from "react-router-dom";
 import { TBulkSolid } from '../../Bulksolid/BulkSolidForm';
 import Field from './Field';
-import { RackDispatchContext } from '../RackReducer';
+import { RackDispatchContext, TRackFieldContents } from '../RackReducer';
 import RackRowComponent from './RackRowComponent';
 import OnHoldDialog from '../../Dialogs/OnHoldDialog';
 
@@ -33,58 +33,12 @@ export default function Rack() {
 
 
 
-  /* axios request to get new data. gets called if rackname (url) changes */
   useEffect(() => {
-    /* API Request for rackdetails */
-    /* get the rackdetails.
-
-      1) FIELD CONTENTS
-        the API returns also fieldContents. these are all fields (cells) shown in the viewed Rack.
-        its a Object with content structured {fieldName: bulkSolidID, {}, {}, ... } like this: 
-        {
-          A04_C: 28,
-          A03_E: 9,
-          A03_D: 67,
-        }
-
-      2) ALL BULK SOLID IDS
-        the API returns an array of bulkSolidIDs that are used in this rack.
-        this means, if a field in the viewed rack contains a bulk solid (see above), the API retuns this ID of the bulksolid.
-        does not return a single ID multiple times
-
-     */
-
-    /* the get request */
-    axios.get(process.env.REACT_APP_API + '/store/rackdetails',
-      /* give the rackName as parameter */
-      { params: { rackName } }
-    )
-
-      /* solve the request */
-      .then(response => {
-        /*
-        if the rack contains no fieldcontents, hence no ids, it returns empty
-        so only try to set the data if its not empty
-         */
-        if (response.data) {
-          /* extract the data */
-          const bulkSolidIDs: TBulkSolid[] = response.data.allBulkSolids
-          const fieldContents = response.data.rackFields
-
-          /* and dispatch it in the context */
-          rackDispatch({ type: 'setAllBulkSolids', payload: bulkSolidIDs })
-          rackDispatch({ type: 'setFieldContents', payload: fieldContents })
-
-          /* log that the rack is empty */
-        } else {
-          console.log("Empty Return")
-        }
-      })
-      /* if the request fails, log it and warn user */
-      .catch(error => {
-        console.log(error)
-        alert("Error - watch console")
-      })
+    /* axios request to get new data. gets called if rackname (url) changes */
+    API.UpdateRackFields(rackName, (bulkSolids: TBulkSolid[], rackFields: TRackFieldContents) => {
+      rackDispatch({ type: 'setAllBulkSolids', payload: bulkSolids })
+      rackDispatch({ type: 'setFieldContents', payload: rackFields })
+    })
 
 
   }, [rackDispatch, rackName])

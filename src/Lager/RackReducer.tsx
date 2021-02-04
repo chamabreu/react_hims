@@ -63,7 +63,7 @@ type RackActions =
   | { type: "setRackName", payload: string }
   | { type: "setShelf", payload: string }
   | { type: "setFields", payload: { field1: string, field2: string, field3: string } }
-  | { type: "setFieldContents", payload: { [key: string]: number } }
+  | { type: "setFieldContents", payload: TRackFieldContents }
   | { type: "setAllBulkSolids", payload: TBulkSolid[] }
   | { type: "setOnHoldList", payload: TBulkSolid[] }
   | { type: "updateOnHoldList", payload: TBulkSolid }
@@ -78,13 +78,15 @@ type RackState = {
     field2: string,
     field3: string
   },
-  fieldContents: { [key: string]: number },
+  fieldContents: TRackFieldContents,
   rackName: string,
   allBulkSolids: TBulkSolid[],
   onHoldList?: TBulkSolid[],
   showOnHoldDialog: { dialogState: boolean, bulkSolidData?: TBulkSolid }
 }
 
+
+export type TRackFieldContents = { [key: string]: number }
 
 /* Init Rack State */
 export const RackInitState = {

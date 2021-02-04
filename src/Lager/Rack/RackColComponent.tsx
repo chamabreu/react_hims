@@ -3,8 +3,9 @@ import { Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
-import { RackDispatchContext, RackStateContext } from '../RackReducer';
+import { RackDispatchContext, RackStateContext, TRackFieldContents } from '../RackReducer';
 import { TBulkSolid } from '../../Bulksolid/BulkSolidForm';
+import * as API from '../../APICalls/API'
 
 
 
@@ -105,6 +106,13 @@ export default function RackColComponent(props: { field: string, layer: string }
             this updates the whole view and sets the new "occupied states"
           */
           rackDispatch({ type: 'setFieldContents', payload: rackFields })
+
+          /* Update the RackFields to show new moved items. */
+          API.UpdateRackFields(rackName, (bulkSolids: TBulkSolid[], rackFields: TRackFieldContents) => {
+            rackDispatch({ type: 'setAllBulkSolids', payload: bulkSolids })
+            rackDispatch({ type: 'setFieldContents', payload: rackFields })
+          })
+
         }
       })
 

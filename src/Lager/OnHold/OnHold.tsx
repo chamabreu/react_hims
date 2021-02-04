@@ -1,5 +1,5 @@
 /* Imports */
-import axios from "axios";
+import * as API from '../../APICalls/API'
 import { useContext, useEffect } from "react";
 import { Col } from "react-bootstrap";
 import { RackDispatchContext, RackStateContext } from "../RackReducer";
@@ -17,28 +17,16 @@ export default function OnHold() {
   /* get the items for the onHoldArea */
   useEffect(() => {
 
-    /* request to onhold */
-    axios.get(process.env.REACT_APP_API + '/onhold')
+    /* request to get TBulkSolid-Array from API. See API File for more info. */
+    API.UpdateOnHoldList((bulkSolidArray) => {
+      rackDispatch({ type: 'setOnHoldList', payload: bulkSolidArray })
+    })
 
-      /* handle response */
-      .then(response => {
 
-        /* if there are items onHold */
-        if (Array.isArray(response.data)) {
-          /* set the rackState */
-          rackDispatch({ type: 'setOnHoldList', payload: response.data })
-        }
-      })
-
-      /* handle error */
-      .catch((error) => {
-        console.log(error)
-        alert('error, look console')
-      })
 
   }, [rackDispatch])
 
-  
+
   /* Render the OnHold waiting area */
   return (
     <Col>
