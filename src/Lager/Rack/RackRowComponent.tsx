@@ -1,6 +1,6 @@
 import { useContext } from "react"
 import { Row } from "react-bootstrap"
-import { RackStateContext } from "./RackRoutes"
+import { RackStateContext } from "../RackReducer"
 import RackColComponent from "./RackColComponent"
 
 /* A Row in the rack (layer A-E), which contains the field components (cells) */

@@ -64,7 +64,8 @@ export type TBulkSolid = {
   msds: boolean,
   msdsFile?: File,
   note: string,
-  pictureFile?: File
+  pictureFile?: File,
+  onHold: boolean,
 
 }
 
@@ -84,6 +85,7 @@ const BulkSolidInitState = {
   msdsFile: undefined,
   note: "D",
   pictureFile: undefined,
+  onHold: false
 }
 
 
@@ -111,7 +113,7 @@ export default function Bulksolid() {
     if (state.bulkSolidID === -1) {
 
       /* get a new bulkSolidID */
-      axios.get(process.env.REACT_APP_API + '/api/store/newbulksolidid')
+      axios.get(process.env.REACT_APP_API + '/store/newbulksolidid')
 
         /* response handler */
         .then((response) => {
@@ -157,7 +159,7 @@ export default function Bulksolid() {
     formData.append('bulkSolidData', JSON.stringify(state))
 
 
-    axios.post(process.env.REACT_APP_API + '/api/store/bulksolid', formData)
+    axios.post(process.env.REACT_APP_API + '/store/bulksolid', formData)
       .then(response => {
         console.log(response)
         setApiMessage("Saved")

@@ -1,23 +1,75 @@
+:root {
+  --pdark60: #001f22;
+  --pdark40: #00444a;
+  --pdark20: #006068;
+  --pnormalow: #007179;
+  --pbright20ow: #009299;
+  --pbright40ow: #80B0BA;
+  --pbright60: #cfe4e4;
+
+  --gnormal: #636b70;
+  --g10: #E6E6E6;
+  --g20: #CCCCCC;
+  --g30: #B2B2B2;
+  --g40: #999999;
+  --g50: #808080;
+  --g60: #666666;
+  --g70: #4D4D4D;
+  --g80: #333333;
+  --g90: #1A1A1A;
+
+  --markup: #C4C801;
+
+}
+
+.btn-primary {
+  background-color: var(--pnormalow);
+  border-color: var(--pnormalow);
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: var(--pbright60);
+  border-color: var(--pbright60);
+  color: var(--pdark40);
+}
+
+.btn-primary:focus {
+  background-color: var(--pnormalow);
+  border-color: var(--pnormalow);
+}
+
+.btn-primary:active {
+  background-color: var(--pdark20)!important;
+  border-color: var(--pdark20)!important;
+}
+
+.shelf {
+  border: 5px solid var(--g50);
+}
+
 .field {
-  height: 100px;
+  height: 150px;
   display: flex;
   align-items: center;
-  background: rgb(150, 255, 150);
+  background: var(--pdark20);
+  color: white;
   border: 1px solid black;
   margin: 1px;
-  font-weight: 600;
 }
 
 .field.occupied {
-  background: rgb(255, 118, 118);
+  background: var(--pbright20ow);
+  color: white;
 }
 
 .field:hover {
-  opacity: 0.5;
+  background: var(--pbright40ow);
+  color: var(--pdark60);
 }
 
 .field.dragover {
-  opacity: 0.5;
+  background: var(--pbright40ow);
 }
 
 a {
@@ -35,38 +87,21 @@ a:hover {
 }
 
 
-.navbutton {
-  background: lightblue;
-  margin: 0 5px;
-  border-radius: 5px;
-  box-shadow: 0 0 2px 2px rgb(218, 218, 218);
-}
-
-.navbutton:hover {
-  background: rgb(192, 221, 231);
-
-}
-
-.navlink {
-  flex-grow: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-}
-
 .onholdarea {
-  /* background: rgb(240, 240, 240); */
-  padding: 5px;
+  background: var(--pnormalow);
+  padding: 5px 15px;
 }
 
 .holdcard {
   user-select: none;
-  background: lightgreen;
-  border: 1px solid gray;
+  color: white;
+  background: var(--pbright20ow);
+  border: 1px solid var(--pbright40ow);
   border-radius: 5px;
   padding: 5px;
-  box-shadow: 0 0 2px 2px rgba(99, 121, 99, 0.308) ;
   margin: 10px 0;
+}
 
+.fielddetails {
+  background-clip: content-box;
 }

@@ -1,12 +1,13 @@
 /* Imports */
 import axios from 'axios';
 import React, { useContext, useEffect } from 'react'
-import { Col, Row } from "react-bootstrap";
+import { Row } from "react-bootstrap";
 import { Route, Switch, useParams } from "react-router-dom";
 import { TBulkSolid } from '../../Bulksolid/BulkSolidForm';
 import Field from './Field';
-import { RackDispatchContext, RackStateContext } from './RackRoutes';
+import { RackDispatchContext } from '../RackReducer';
 import RackRowComponent from './RackRowComponent';
+import OnHoldDialog from '../../Dialogs/OnHoldDialog';
 
 /* Type definitions */
 /*
@@ -21,12 +22,10 @@ interface IParams {
 }
 
 
-
 /* Component */
 export default function Rack() {
-  /* rackState and rackDispatch context */
+  /* rackDispatch context */
   const rackDispatch = useContext(RackDispatchContext)
-  const rackState = useContext(RackStateContext)
 
 
   /* Get the rackname from the URL-Params */
@@ -34,24 +33,9 @@ export default function Rack() {
 
 
 
-  /* rerender if rackName (url) or the fieldContents changes (this should be anyways the same process) */
+  /* axios request to get new data. gets called if rackname (url) changes */
   useEffect(() => {
-    /* Deconstruct the shelfname and the 3 horizontal fields of the Rack */
-    const shelf = rackName.slice(0, 1)
-    const fields = {
-      field1: rackName.slice(1, 3),
-      field2: rackName.slice(4, 6),
-      field3: rackName.slice(7, 9),
-    }
-    /* set the RackContext with... */
-    /* the viewed rackName */
-    rackDispatch({ type: 'setRackName', payload: rackName })
-    /* the viewed fields */
-    rackDispatch({ type: 'setFields', payload: fields })
-    /* the viewed shelf */
-    rackDispatch({ type: 'setShelf', payload: shelf })
-
-
+    /* API Request for rackdetails */
     /* get the rackdetails.
 
       1) FIELD CONTENTS
@@ -71,7 +55,7 @@ export default function Rack() {
      */
 
     /* the get request */
-    axios.get(process.env.REACT_APP_API + '/api/store/rackdetails',
+    axios.get(process.env.REACT_APP_API + '/store/rackdetails',
       /* give the rackName as parameter */
       { params: { rackName } }
     )
@@ -102,48 +86,74 @@ export default function Rack() {
         alert("Error - watch console")
       })
 
-  }, [rackName, rackDispatch, rackState.fieldContents])
+
+  }, [rackDispatch, rackName])
+
+
+  /* rerender if rackName (url) changes. maybe merge it with useEffect from above?! */
+  useEffect(() => {
+    /* Deconstruct the shelfname and the 3 horizontal fields of the Rack */
+    const shelf = rackName.slice(0, 1)
+    const fields = {
+      field1: rackName.slice(1, 3),
+      field2: rackName.slice(4, 6),
+      field3: rackName.slice(7, 9),
+    }
+    /* set the RackContext with... */
+    /* the viewed rackName */
+    rackDispatch({ type: 'setRackName', payload: rackName })
+    /* the viewed fields */
+    rackDispatch({ type: 'setFields', payload: fields })
+    /* the viewed shelf */
+    rackDispatch({ type: 'setShelf', payload: shelf })
+
+  }, [rackName, rackDispatch])
 
 
 
   /* Render */
   return (
-
-    <Switch>
-
-
-      {/* Routing to a field */}
-      <Route path="/lager/:rackName/:field">
-        <Field />
-      </Route>
+    <>
+      <Switch>
 
 
-      {/* Routing to rack itself */}
-      <Route path='/'>
-
-        {/* Title of Rack */}
-        <Row >
-          <h3>Rackname: {rackName}</h3>
-        </Row >
+        {/* Routing to a field */}
+        <Route path="/lager/:rackName/:field">
+          <Field />
+        </Route>
 
 
-        {/* Rack Area */}
-        <Row >
+        {/* Routing to rack itself */}
+        <Route path='/'>
 
-          {/* Rack Creation */}
-          <Col>
+          {/* Title of Rack */}
+          <Row className='d-flex flex-column align-items-center justify-content-center' >
+            <h1>Rack {rackName}</h1>
+            <p>Drag an item from left or click a field to show content details</p>
+          </Row >
+
+
+          {/* Rack Area */}
+          <div >
+
+            {/* Rack Creation */}
             {/* Create 5 Rows for the Rack */}
             <RackRowComponent layer="E" />
             <RackRowComponent layer="D" />
             <RackRowComponent layer="C" />
             <RackRowComponent layer="B" />
             <RackRowComponent layer="A" />
-          </Col >
+
+          </div >
+
+        </Route>
+      </Switch>
 
 
-        </Row >
-      </Route>
-    </Switch>
+      {/* DialogWindows. Managed by RackContext. Maybe this could be moved to top level App.tsx?! */}
+      <OnHoldDialog />
+
+    </>
 
   )
 };

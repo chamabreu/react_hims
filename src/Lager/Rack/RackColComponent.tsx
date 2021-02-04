@@ -3,7 +3,7 @@ import { Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
-import { RackDispatchContext, RackStateContext } from './RackRoutes';
+import { RackDispatchContext, RackStateContext } from '../RackReducer';
 import { TBulkSolid } from '../../Bulksolid/BulkSolidForm';
 
 
@@ -22,7 +22,7 @@ export default function RackColComponent(props: { field: string, layer: string }
   /* if the field is occupied by a resource */
   const [occupied, setOccupied] = useState(false)
   /* the resource, if exists, which occupies the fielf */
-  const [containedBulkSolid, setCotainedBulkSolid] = useState<TBulkSolid | null>(null)
+  const [containedBulkSolid, setContainedBulkSolid] = useState<TBulkSolid | null>(null)
 
 
 
@@ -43,12 +43,12 @@ export default function RackColComponent(props: { field: string, layer: string }
   /* recalculate the bulksolid for the field or set it to null */
   useEffect(() => {
     if (occupied) {
-      setCotainedBulkSolid(() => {
+      setContainedBulkSolid(() => {
         const bulkSolidID = fieldContents[thisFieldID]
         return allBulkSolids.filter(bulkSolid => bulkSolid.bulkSolidID === bulkSolidID)[0]
       })
     } else {
-      setCotainedBulkSolid(null)
+      setContainedBulkSolid(null)
     }
   }, [occupied, fieldContents, thisFieldID, allBulkSolids])
 
@@ -81,13 +81,14 @@ export default function RackColComponent(props: { field: string, layer: string }
     /* get the bulkSolidData from the dragged card */
     const bulkSolidData: TBulkSolid = JSON.parse(e.dataTransfer.getData('bulkSolid'))
 
+
     /* get the ID of the bulkSolidData */
     const itemID = bulkSolidData.bulkSolidID
     /* get the fieldID on which the card was dropped */
     const fieldID = e.currentTarget.id
 
     /* send a request to handle the relations in the database */
-    axios.post(process.env.REACT_APP_API + '/api/store/movebulksolid', {
+    axios.post(process.env.REACT_APP_API + '/store/movebulksolid', {
       /* send the needed data */
       sourceItemID: itemID,
       targetFieldID: fieldID,
@@ -110,8 +111,12 @@ export default function RackColComponent(props: { field: string, layer: string }
       /* error handler */
       .catch(error => {
         console.log(error)
-        alert("error, watch console")
+        //alert("error, watch console")
       })
+
+    /* Open the Dialog to ask user about removing from on hold area */
+    rackDispatch({ type: 'setShowOnHoldDialog', payload: { dialogState: true, bulkSolidData } })
+
   }
 
 

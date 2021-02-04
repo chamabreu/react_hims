@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from "react"
 import { Button, Col, Row } from "react-bootstrap"
 import { useParams, useHistory } from "react-router-dom"
 import { TBulkSolid } from "../../Bulksolid/BulkSolidForm"
-import { RackStateContext } from "./RackRoutes"
+import { RackStateContext } from "../RackReducer"
 
 /* Type definitions */
 /*
@@ -55,25 +55,32 @@ export default function Field() {
       /* The Field Container */
       <>
 
-        {/* Button to go back to Rack */}
-        <Row>
-          <Button onClick={history.goBack}>Back to Rack</Button>
-        </Row>
 
 
         {/* Name of the Field */}
-        <Row>
-          <h3>Rack Field: {field}</h3>
+        <Row className='flex-column justify-content-center align-items-center'>
+          <h1>Fieldname: {field}</h1>
+          <p>Content of field</p>
         </Row>
 
 
         {/* Details of the bulk solid content */}
-        <Row>
+        <Row className='fielddetails'>
 
 
           {/* an image if available */}
-          <Col className='col-4'>
+          <Col className='col-4 d-flex flex-column'>
             <img className="fieldimage" src={`http://92.211.135.241:9901/api/${bulkSolid.pictureFile}`} alt="NoPic" />
+
+            {/* Buttons to add additional functionality - for now they are 'out of order' */}
+            {/* <Row className='justify-content-around mt-3'> */}
+            <div className='d-flex flex-column justify-content-around flex-grow-1'>
+
+              <Button onClick={_ => alert("Out of Function :-)")}>Store</Button>
+              <Button onClick={_ => alert("Out of Function :-)")}>Take</Button>
+              <Button onClick={_ => alert("Out of Function :-)")}>Move</Button>
+            </div>
+            {/* </Row> */}
           </Col>
 
           {/* show the details that are wanted */}
@@ -95,11 +102,10 @@ export default function Field() {
 
         </Row>
 
-        {/* Buttons to add additional functionality - for now they are 'out of order' */}
-        <Row className='justify-content-around mt-3'>
-          <Button onClick={_ => alert("Out of Function :-)")}>Store</Button>
-          <Button onClick={_ => alert("Out of Function :-)")}>Take</Button>
-          <Button onClick={_ => alert("Out of Function :-)")}>Move</Button>
+
+        {/* Button to go back to Rack */}
+        <Row className='d-flex justify-content-center mt-5'>
+          <Button onClick={history.goBack}>Back to Rack</Button>
         </Row>
 
       </>
@@ -113,15 +119,15 @@ export default function Field() {
     return (
 
       <>
-        {/* Button to go back to Rack */}
-        <Row>
-          <Button onClick={history.goBack}>Back to Rack</Button>
-        </Row>
-
         {/* notify user that this field is empty */}
         <div>
           Nothing in here
         </div>
+        
+        {/* Button to go back to Rack */}
+        <Row>
+          <Button onClick={history.goBack}>Back to Rack</Button>
+        </Row>
       </>
     )
   }

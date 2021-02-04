@@ -1,30 +1,32 @@
 /* Imports */
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { Col } from "react-bootstrap";
-import { TBulkSolid } from "../../Bulksolid/BulkSolidForm"
+import { RackDispatchContext, RackStateContext } from "../RackReducer";
 import OnHoldCard from "./OnHoldCard";
 
 
 /* Component */
 export default function OnHold() {
-  /* the items from the database which are tagged as onHold */
-  const [holdItems, setHoldItems] = useState<TBulkSolid[]>([])
+  /* the items from the database which are tagged as onHold extracted from rackState */
+  const { onHoldList } = useContext(RackStateContext)
+  /* Rackdispatch Context */
+  const rackDispatch = useContext(RackDispatchContext)
+
 
   /* get the items for the onHoldArea */
   useEffect(() => {
 
     /* request to onhold */
-    axios.get(process.env.REACT_APP_API + '/api/onhold')
+    axios.get(process.env.REACT_APP_API + '/onhold')
 
       /* handle response */
       .then(response => {
+
         /* if there are items onHold */
-        if (response.data.length !== 0) {
-          console.log("Got some Data ???")
-          console.log(response)
-          /* set the state */
-          setHoldItems(response.data)
+        if (Array.isArray(response.data)) {
+          /* set the rackState */
+          rackDispatch({ type: 'setOnHoldList', payload: response.data })
         }
       })
 
@@ -34,26 +36,27 @@ export default function OnHold() {
         alert('error, look console')
       })
 
-  }, [])
+  }, [rackDispatch])
 
-
+  
   /* Render the OnHold waiting area */
   return (
     <Col>
 
       {/* Topic */}
-      <div>
-        <h3>On Hold</h3>
+      <div className='d-flex flex-column align-items-center justify-content-center'>
+        <h1>On Hold</h1>
+        <p>Drag and Drop an item on a rackfield</p>
       </div>
 
       {/* the area for the onHold cards */}
       <div className='onholdarea'>
 
-        {/* Info about Counted Cards */}
-        There are {holdItems.length} items on hold.
-
         {/* create for each item in the holdItems state a new OnHoldCard to list it here */}
-        {holdItems.map((aHoldItem) => <OnHoldCard key={aHoldItem.bulkSolidID} holdItem={aHoldItem} />)}
+        {onHoldList
+          ? onHoldList.map((aHoldItem) => <OnHoldCard key={aHoldItem.bulkSolidID} holdItem={aHoldItem} />)
+          : null
+        }
 
       </div>
 

@@ -38,6 +38,9 @@ export default function OnHoldCard(props: IProps) {
         ID: {props.holdItem.bulkSolidID}
       </div>
       <div>
+        Desc: {props.holdItem.description}
+      </div>
+      <div>
         Arrived: {props.holdItem.arrivalDate}
       </div>
       <div>

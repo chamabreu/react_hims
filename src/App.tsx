@@ -1,39 +1,19 @@
 import React from 'react';
-import { Link, Route, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import LagerRoutes from './Lager/LagerRoutes';
 import whiteboard from './Assets/210125_scratch_1.jpg'
-import { Container, Navbar, Nav } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import PalletManager from './Pallet/PalletManager';
 import Search from './Search/Search';
 import Bulksolid from './Bulksolid/BulkSolidForm';
+import NavBarComp from './NavBarComp';
 
 function App() {
   return (
     <Container>
 
       {/* Navbar */}
-      <Navbar bg="light">
-
-        <Navbar.Brand>
-          <Link to="/">
-            HIMS
-          </Link>
-        </Navbar.Brand>
-
-        <Nav className='flex-grow-1 align-self-stretch navbutton'>
-          <Link to="/lager" className='navlink'>Lager</Link>
-        </Nav>
-        <Nav className='flex-grow-1 align-self-stretch navbutton'>
-          <Link to="/pallet" className='navlink'>Pallet</Link>
-        </Nav>
-        <Nav className='flex-grow-1 align-self-stretch navbutton'>
-          <Link to="/bulksolid" className='navlink'>Bulk Solid</Link>
-        </Nav>
-        <Nav className='flex-grow-1 align-self-stretch navbutton'>
-          <Link to="/search" className='navlink'>Search</Link>
-        </Nav>
-
-      </Navbar>
+      <NavBarComp />
 
 
 
@@ -49,7 +29,7 @@ function App() {
         <Route path="/pallet">
           <PalletManager />
         </Route>
-        
+
         {/* Bulksolid management */}
         <Route path="/bulksolid">
           <Bulksolid />
@@ -69,6 +49,8 @@ function App() {
 
 
       </Switch>
+
+
     </Container>
   );
 }

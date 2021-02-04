@@ -1,0 +1,63 @@
+:root {
+  --pdark60: #001f22;
+  --pdark40: #00444a;
+  --pdark20: #006068;
+  --pnormalow: #007179;
+  --pbright20ow: #009299;
+  --pbright40ow: #80B0BA;
+  --pbright60: #cfe4e4;
+
+  --gnormal: #636b70;
+  --g10: #E6E6E6;
+  --g20: #CCCCCC;
+  --g30: #B2B2B2;
+  --g40: #999999;
+  --g50: #808080;
+  --g60: #666666;
+  --g70: #4D4D4D;
+  --g80: #333333;
+  --g90: #1A1A1A;
+
+  --markup: #C4C801;
+
+}
+
+h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+.navbar {
+  background-color: var(--g10);
+  margin-bottom: 1rem;
+}
+
+.navbar-brand {
+  color: var(--gnormal);
+  font-weight: 700;
+  font-size: 1.2rem;
+
+}
+
+
+.navbutton {
+  margin: 0 5px;
+  color: var(--gnormal);
+  font-size: 1.2rem;
+  font-weight: 700;
+  border-radius: 5px;
+}
+
+.navbutton:hover {
+  background: var(--pnormalow);
+  color: white;
+
+}
+
+.navlink {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
