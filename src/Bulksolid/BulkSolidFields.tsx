@@ -208,18 +208,18 @@ export default function BulkSolidFields() {
       <Form.Group as={Row} controlId={FieldIDs.msdsFile} >
         <Form.Label column lg={2}>Upload MSDS</Form.Label>
         <Col>
-        <Form.Control
+          <Form.Control
             type="file"
             multiple={false}
-            accept=".jpg, .jpeg, .png"
+            accept=".pdf, .jpg, .jpeg, .png"
 
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               const uploadedMsdsFile = e.target.files ? e.target.files[0] : undefined
 
               if (uploadedMsdsFile) {
-                changeHandler({ type: "msdsUpload", fieldID: FieldIDs.msdsFile, payload: uploadedMsdsFile})
-              }else {
-                changeHandler({ type: "msdsUpload", fieldID: FieldIDs.msdsFile, payload: undefined})
+                changeHandler({ type: "msdsUpload", fieldID: FieldIDs.msdsFile, payload: uploadedMsdsFile })
+              } else {
+                changeHandler({ type: "msdsUpload", fieldID: FieldIDs.msdsFile, payload: undefined })
               }
             }}
 
@@ -236,14 +236,14 @@ export default function BulkSolidFields() {
           <Form.Control
             type="file"
             multiple={false}
-            accept='.pdf, .png, .jpg, .jpeg'
+            accept='.png, .jpg, .jpeg'
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               const uploadedImage = e.target.files ? e.target.files[0] : undefined
 
               if (uploadedImage) {
-                changeHandler({ type: "pictureUpload", fieldID: FieldIDs.pictureFile, payload: uploadedImage})
-              }else {
-                changeHandler({ type: "pictureUpload", fieldID: FieldIDs.pictureFile, payload: undefined})
+                changeHandler({ type: "pictureUpload", fieldID: FieldIDs.pictureFile, payload: uploadedImage })
+              } else {
+                changeHandler({ type: "pictureUpload", fieldID: FieldIDs.pictureFile, payload: undefined })
               }
             }}
 

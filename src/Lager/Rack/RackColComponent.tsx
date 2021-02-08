@@ -199,7 +199,7 @@ export default function RackColComponent(props: { field: string, layer: string }
           {/* show the picture of the content, or nothing */}
           <div className='d-flex justify-content-center flex-grow-1'>
             {containedBulkSolid?.pictureFile
-              ? <img style={{ width: '90px' }} src={`http://92.211.135.241:9901/api/${containedBulkSolid?.pictureFile}`} alt="NoPic" />
+              ? <img style={{ width: '90px' }} src={`${process.env.REACT_APP_API}/${containedBulkSolid?.pictureFile}`} alt="NoPic" />
               : null
             }
           </div>

@@ -159,7 +159,15 @@ export default function Bulksolid() {
     formData.append('bulkSolidData', JSON.stringify(state))
 
 
-    axios.post(process.env.REACT_APP_API + '/store/bulksolid', formData)
+    axios.post(process.env.REACT_APP_API + '/store/bulksolid',
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }
+
+    )
       .then(response => {
         console.log(response)
         setApiMessage("Saved")
