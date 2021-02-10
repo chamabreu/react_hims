@@ -4,7 +4,7 @@
 
 ### Global
 - ~~rename paths / urls~~
-- recoloring
+- ~~recoloring~~
 
 ### .../store
 - ~~a mask to store a new product~~
@@ -16,9 +16,9 @@
 
 ### OnHold Area
 - show a picture in OnHoldCard
-- show description in OnHoldCard
-- dialog after drag'n'drop if there are more items or not
-  - if not request to db and update the onHold property of the item
+- ~~show description in OnHoldCard~~
+- ~~dialog after drag'n'drop if there are more items or not~~
+  - ~~if not request to db and update the onHold property of the item~~
 
 ### .../lager
 - show a miniversion of the rackoverview in a shelf field to see if there are free places

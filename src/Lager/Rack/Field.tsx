@@ -2,8 +2,7 @@
 import { useContext, useEffect, useState } from "react"
 import { Button, Col, Row } from "react-bootstrap"
 import { useParams, useHistory } from "react-router-dom"
-import { TBulkSolid } from "../../Bulksolid/BulkSolidForm"
-import { RackStateContext } from "../RackReducer"
+import { RackStateContext, TBulkSolid } from "../RackReducer"
 
 /* Type definitions */
 /*
@@ -123,7 +122,7 @@ export default function Field() {
         <div>
           Nothing in here
         </div>
-        
+
         {/* Button to go back to Rack */}
         <Row>
           <Button onClick={history.goBack}>Back to Rack</Button>

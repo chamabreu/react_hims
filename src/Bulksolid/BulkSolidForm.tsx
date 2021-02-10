@@ -2,11 +2,11 @@
 import React, { useEffect, useReducer, useState } from "react";
 import { Button, Col, Form, Jumbotron, Row } from "react-bootstrap";
 import BulkSolidFields from './BulkSolidFields'
-import axios from 'axios';
+import * as API from '../APICalls/API'
 
 
 /* Define Reducer Dispatch handler */
-const BulkSolidReducer = (state: TBulkSolid, action: TBulkSolidActions) => {
+const BulkSolidReducer = (state: TBulkSolidForm, action: TBulkSolidActions) => {
   switch (action.type) {
     case 'textField':
       return { ...state, [action.fieldID]: action.payload }
@@ -51,7 +51,7 @@ type TBulkSolidActions =
 
 
 /* Types of Bulk solid form inputs */
-export type TBulkSolid = {
+export type TBulkSolidForm = {
   bulkSolidID: number,
   aID: string,
   arrivalDate: string,
@@ -91,7 +91,7 @@ const BulkSolidInitState = {
 
 
 /* Export State and Dispatch Context to call it with useContext()*/
-export const BulkSolidFormStateContext = React.createContext<TBulkSolid>(BulkSolidInitState)
+export const BulkSolidFormStateContext = React.createContext<TBulkSolidForm>(BulkSolidInitState)
 export const BulkSolidFormDispatchContext = React.createContext<React.Dispatch<TBulkSolidActions>>(() => { })
 
 
@@ -111,27 +111,10 @@ export default function Bulksolid() {
   useEffect(() => {
     /* if the bulkSolidID is default (-1). This saves some unneeded rerendering*/
     if (state.bulkSolidID === -1) {
-
       /* get a new bulkSolidID */
-      axios.get(process.env.REACT_APP_API + '/store/newbulksolidid')
-
-        /* response handler */
-        .then((response) => {
-          /*
-            response.data contains a lastCounterValue which is the last bulksolidid which was registered
-            Set the new bulksolidid in this form to the lastCounterValue + 1
-            Through 'updating' the lastCounterValue only in frontend, the backend stays at the old counterValue.
-            if the form gets submitted, the backend compares (THIS ID) with (its ID from Database + 1).
-            if they match it increases the databse counter value and saves the new bulksolid
-          */
-          dispatch({ type: "bulksolidid", payload: response.data.lastCounterValue + 1 })
-        })
-
-        /* error handler */
-        .catch((error) => {
-          console.log(error)
-          alert('error, watch console')
-        })
+      API.GetNewBulkSolidID((newBulkSolidID) => {
+        dispatch({ type: "bulksolidid", payload: newBulkSolidID })
+      })
     }
   }, [state.bulkSolidID])
 
@@ -139,15 +122,20 @@ export default function Bulksolid() {
   /* Submit handler */
   const submitData = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+
+    /* Loading screen */
     setIsLoading(true)
     setApiMessage("")
 
+    /* create a new formData to transmit to backend */
+    const formData = new FormData()
+
+    /* gather the data */
     const bulkSolidPicture = state.pictureFile
     const msdsFile = state.msdsFile
 
-    const formData = new FormData()
 
-
+    /* append the picture and msds only if there is some */
     if (bulkSolidPicture) {
       formData.append("bulkSolidPicture", bulkSolidPicture)
     }
@@ -156,28 +144,24 @@ export default function Bulksolid() {
       formData.append("msdsFile", msdsFile)
     }
 
+    /* append other fields from input form */
     formData.append('bulkSolidData', JSON.stringify(state))
 
 
-    axios.post(process.env.REACT_APP_API + '/store/bulksolid',
-      formData,
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      }
 
-    )
-      .then(response => {
-        console.log(response)
+    /*
+      API Call to store bulk solid. If error, there will be an alert and a console log.
+      If success, set message and loading screen
+    */
+    API.StoreBulkSolid(formData, (success) => {
+      if (success) {
         setApiMessage("Saved")
         setIsLoading(false)
-      })
-      .catch(error => {
-        console.log(error)
-        setApiMessage("Error")
+      } else {
+        setApiMessage("Error, look console.")
         setIsLoading(false)
-      })
+      }
+    })
 
   }
 

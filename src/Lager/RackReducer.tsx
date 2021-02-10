@@ -1,6 +1,5 @@
 /* Imports */
 import React from 'react'
-import { TBulkSolid } from "../Bulksolid/BulkSolidForm";
 
 /* Reducer and Context for Racks */
 
@@ -86,7 +85,29 @@ type RackState = {
 }
 
 
+
+/* Other Types */
 export type TRackFieldContents = { [key: string]: number }
+
+
+/* Types of Bulk solid form inputs */
+export type TBulkSolid = {
+  bulkSolidID: number,
+  aID: string,
+  arrivalDate: string,
+  bulkSolidShape: string,
+  casNumber: string,
+  density: string,
+  description: string,
+  enteredBy: string,
+  exprotection: boolean,
+  msds: boolean,
+  msdsFile: string,
+  note: string,
+  pictureFile: string,
+  onHold: boolean,
+
+}
 
 /* Init Rack State */
 export const RackInitState = {

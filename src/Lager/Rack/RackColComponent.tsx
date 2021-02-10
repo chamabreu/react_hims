@@ -1,10 +1,8 @@
 /* Imports */
 import { Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
-import { RackDispatchContext, RackStateContext, TRackFieldContents } from '../RackReducer';
-import { TBulkSolid } from '../../Bulksolid/BulkSolidForm';
+import { RackDispatchContext, RackStateContext, TRackFieldContents, TBulkSolid } from '../RackReducer';
 import * as API from '../../APICalls/API'
 
 
@@ -88,42 +86,32 @@ export default function RackColComponent(props: { field: string, layer: string }
     /* get the fieldID on which the card was dropped */
     const fieldID = e.currentTarget.id
 
+
     /* send a request to handle the relations in the database */
-    axios.post(process.env.REACT_APP_API + '/store/movebulksolid', {
-      /* send the needed data */
-      sourceItemID: itemID,
-      targetFieldID: fieldID,
-      currentRackName: rackName
+    API.MoveBulkSolid(itemID, fieldID, rackName, (updatedRack) => {
+
+      /*
+        and set the fieldContents of the viewed rack.
+        this updates the whole view and sets the new "occupied states"
+      */
+      console.log("DISPATCHING WITH")
+      console.log(updatedRack)
+      rackDispatch({ type: 'setFieldContents', payload: updatedRack.rackFields })
+
+      /* Update the RackFields to show new moved items. */
+      API.UpdateRackFields(rackName, (bulkSolids: TBulkSolid[], rackFields: TRackFieldContents) => {
+        rackDispatch({ type: 'setAllBulkSolids', payload: bulkSolids })
+        rackDispatch({ type: 'setFieldContents', payload: rackFields })
+
+        /*
+        Open the Dialog to ask user about removing from on hold area.
+        This only opens if all calls were successfull
+        Else an alert is shown from API Module
+        */
+        rackDispatch({ type: 'setShowOnHoldDialog', payload: { dialogState: true, bulkSolidData } })
+      })
     })
-      /* response handler */
-      .then(response => {
-        /* if the response.data contains something */
-        if (response.data.updatedRack) {
-          /* get the rackFields from the data */
-          const rackFields = response.data.updatedRack.rackFields
-          /*
-            and set the fieldContents of the viewed rack.
-            this updates the whole view and sets the new "occupied states"
-          */
-          rackDispatch({ type: 'setFieldContents', payload: rackFields })
 
-          /* Update the RackFields to show new moved items. */
-          API.UpdateRackFields(rackName, (bulkSolids: TBulkSolid[], rackFields: TRackFieldContents) => {
-            rackDispatch({ type: 'setAllBulkSolids', payload: bulkSolids })
-            rackDispatch({ type: 'setFieldContents', payload: rackFields })
-          })
-
-        }
-      })
-
-      /* error handler */
-      .catch(error => {
-        console.log(error)
-        //alert("error, watch console")
-      })
-
-    /* Open the Dialog to ask user about removing from on hold area */
-    rackDispatch({ type: 'setShowOnHoldDialog', payload: { dialogState: true, bulkSolidData } })
 
   }
 
@@ -199,7 +187,7 @@ export default function RackColComponent(props: { field: string, layer: string }
           {/* show the picture of the content, or nothing */}
           <div className='d-flex justify-content-center flex-grow-1'>
             {containedBulkSolid?.pictureFile
-              ? <img style={{ width: '90px' }} src={`${process.env.REACT_APP_API}/${containedBulkSolid?.pictureFile}`} alt="NoPic" />
+              ? <img style={{ width: '90px' }} src={API.GetMediaURL(containedBulkSolid?.pictureFile)} alt="NoPic" />
               : null
             }
           </div>

@@ -1,6 +1,6 @@
 /* Imports */
 import React from 'react'
-import { TBulkSolid } from "../../Bulksolid/BulkSolidForm";
+import { TBulkSolid } from "../RackReducer";
 
 /* Type Declarations */
 interface IProps {
@@ -24,7 +24,7 @@ export default function OnHoldCard(props: IProps) {
 
   /* Render */
   return (
-    
+
     /* the card outline */
     <div
       id={props.holdItem.bulkSolidID.toString()}

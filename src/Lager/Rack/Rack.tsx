@@ -3,9 +3,8 @@ import * as API from '../../APICalls/API'
 import React, { useContext, useEffect } from 'react'
 import { Row } from "react-bootstrap";
 import { Route, Switch, useParams } from "react-router-dom";
-import { TBulkSolid } from '../../Bulksolid/BulkSolidForm';
 import Field from './Field';
-import { RackDispatchContext, TRackFieldContents } from '../RackReducer';
+import { RackDispatchContext, TRackFieldContents, TBulkSolid } from '../RackReducer';
 import RackRowComponent from './RackRowComponent';
 import OnHoldDialog from '../../Dialogs/OnHoldDialog';
 
