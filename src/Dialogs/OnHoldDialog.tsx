@@ -16,7 +16,7 @@ export default function OnHoldDialog() {
   const handleRemove = async () => {
 
     /* Remove bulk solid from on hold with API call. This sets the onHold property of the item to false */
-    API.RemoveOnHoldFromBS(showOnHoldDialog.bulkSolidData!.bulkSolidID, (updatedBulkSolid) => {
+    API.ChangeBSOnHoldState(showOnHoldDialog.bulkSolidData!.bulkSolidID, (updatedBulkSolid) => {
 
 
       /* success handler, update the onHoldlist with the updatedBulkSolid from backend */

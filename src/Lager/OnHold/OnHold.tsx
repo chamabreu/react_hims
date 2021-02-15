@@ -18,7 +18,7 @@ export default function OnHold() {
   useEffect(() => {
 
     /* request to get TBulkSolid-Array from API. See API File for more info. */
-    API.UpdateOnHoldList((bulkSolidArray) => {
+    API.GetOnHoldList((bulkSolidArray) => {
       rackDispatch({ type: 'setOnHoldList', payload: bulkSolidArray })
     })
 

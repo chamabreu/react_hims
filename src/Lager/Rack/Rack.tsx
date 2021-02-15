@@ -34,7 +34,7 @@ export default function Rack() {
 
   useEffect(() => {
     /* axios request to get new data. gets called if rackname (url) changes */
-    API.UpdateRackFields(rackName, (bulkSolids: TBulkSolid[], rackFields: TRackFieldContents) => {
+    API.GetRackDetails(rackName, (bulkSolids: TBulkSolid[], rackFields: TRackFieldContents) => {
       rackDispatch({ type: 'setAllBulkSolids', payload: bulkSolids })
       rackDispatch({ type: 'setFieldContents', payload: rackFields })
     })

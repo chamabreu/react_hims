@@ -4,7 +4,7 @@ import { TRackFieldContents, TBulkSolid } from '../Lager/RackReducer'
 
 
 /* call to get an Array of TBulkSolid types from DB */
-export function UpdateOnHoldList(dispatch: (bulkSolidArray: TBulkSolid[]) => void) {
+export function GetOnHoldList(dispatch: (bulkSolidArray: TBulkSolid[]) => void) {
 
   axios.get<TBulkSolid[]>(process.env.REACT_APP_API + '/onhold/data')
 
@@ -32,7 +32,7 @@ export function UpdateOnHoldList(dispatch: (bulkSolidArray: TBulkSolid[]) => voi
 
 
 
-export function UpdateRackFields(rackName: string, dispatch: (bulkSolids: TBulkSolid[], rackFields: TRackFieldContents) => void) {
+export function GetRackDetails(rackName: string, dispatch: (bulkSolids: TBulkSolid[], rackFields: TRackFieldContents) => void) {
   /* API Request for rackdetails */
   /* get the rackdetails.
 
@@ -90,7 +90,7 @@ export function UpdateRackFields(rackName: string, dispatch: (bulkSolids: TBulkS
 
 
 /* set onHold property to false on specified bulkSolidID */
-export function RemoveOnHoldFromBS(bulkSolidID: number, dispatch: (updatedBulkSolid: TBulkSolid) => void) {
+export function ChangeBSOnHoldState(bulkSolidID: number, dispatch: (updatedBulkSolid: TBulkSolid) => void) {
 
   /* the post request */
   axios.put<TBulkSolid>(process.env.REACT_APP_API + '/bulksolid/onhold', { bulkSolidID })
