@@ -1,8 +1,9 @@
 /* Imports */
 import React, { useEffect, useReducer, useState } from "react";
 import { Button, Col, Form, Jumbotron, Row } from "react-bootstrap";
+import { API_BS_GetNewBulkSolidID, API_BS_StoreBulkSolid } from "../APICalls/API";
 import BulkSolidFields from './BulkSolidFields'
-import * as API from '../APICalls/API'
+
 
 
 /* Define Reducer Dispatch handler */
@@ -112,7 +113,7 @@ export default function Bulksolid() {
     /* if the bulkSolidID is default (-1). This saves some unneeded rerendering*/
     if (state.bulkSolidID === -1) {
       /* get a new bulkSolidID */
-      API.GetNewBulkSolidID((newBulkSolidID) => {
+      API_BS_GetNewBulkSolidID((newBulkSolidID) => {
         dispatch({ type: "bulksolidid", payload: newBulkSolidID })
       })
     }
@@ -153,7 +154,7 @@ export default function Bulksolid() {
       API Call to store bulk solid. If error, there will be an alert and a console log.
       If success, set message and loading screen
     */
-    API.StoreBulkSolid(formData, (success) => {
+    API_BS_StoreBulkSolid(formData, (success) => {
       if (success) {
         setApiMessage("Saved")
         setIsLoading(false)

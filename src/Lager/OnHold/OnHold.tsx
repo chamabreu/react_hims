@@ -1,7 +1,7 @@
 /* Imports */
-import * as API from '../../APICalls/API'
 import { useContext, useEffect } from "react";
 import { Col } from "react-bootstrap";
+import { API_ONHOLD_GetOnHoldList } from "../../APICalls/API";
 import { RackDispatchContext, RackStateContext } from "../RackReducer";
 import OnHoldCard from "./OnHoldCard";
 
@@ -18,7 +18,7 @@ export default function OnHold() {
   useEffect(() => {
 
     /* request to get TBulkSolid-Array from API. See API File for more info. */
-    API.GetOnHoldList((bulkSolidArray) => {
+    API_ONHOLD_GetOnHoldList((bulkSolidArray) => {
       rackDispatch({ type: 'setOnHoldList', payload: bulkSolidArray })
     })
 

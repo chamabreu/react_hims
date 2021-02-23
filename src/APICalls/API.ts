@@ -3,16 +3,38 @@ import { TRackFieldContents, TBulkSolid } from '../Lager/RackReducer'
 
 
 
-/* call to get an Array of TBulkSolid types from DB */
-export function GetOnHoldList(dispatch: (bulkSolidArray: TBulkSolid[]) => void) {
+interface NoDataResponse {
+  noData: boolean
+}
 
-  axios.get<TBulkSolid[]>(process.env.REACT_APP_API + '/onhold/data')
+function responseIsEmpty(data: any): data is NoDataResponse {
+  return "noData" in data
+}
+
+function ErrorHandler(error: any) {
+
+  if (error.response) {
+
+    console.log(error.response)
+    alert(`ERROR!\nMessage: ${error.response.data.message}.\nLook Console.`)
+  } else {
+    alert("untracked error, look console.")
+    console.log(error)
+
+  }
+}
+
+
+/* call to get an Array of TBulkSolid types from DB */
+export function API_ONHOLD_GetOnHoldList(dispatch: (bulkSolidArray: TBulkSolid[]) => void) {
+
+  axios.get<TBulkSolid[] | NoDataResponse>(process.env.REACT_APP_API + '/onhold/data')
 
     /* handle response */
     .then(response => {
-
-      /* Check if response.data is expected Arrray */
-      if (Array.isArray(response.data)) {
+      console.log(response)
+      // /* Check if response.data is expected Arrray */
+      if (!responseIsEmpty(response.data)) {
 
         /* and call the dispatch callback with the data */
         dispatch(response.data)
@@ -23,16 +45,13 @@ export function GetOnHoldList(dispatch: (bulkSolidArray: TBulkSolid[]) => void) 
     })
 
     /* handle request errors */
-    .catch(error => {
-      console.log(error)
-      alert('error, look console')
-    })
+    .catch(error => ErrorHandler(error))
 
 }
 
 
 
-export function GetRackDetails(rackName: string, dispatch: (bulkSolids: TBulkSolid[], rackFields: TRackFieldContents) => void) {
+export function API_RACK_GetRackDetails(rackName: string, dispatch: (bulkSolids: TBulkSolid[], rackFields: TRackFieldContents) => void) {
   /* API Request for rackdetails */
   /* get the rackdetails.
 
@@ -67,7 +86,9 @@ export function GetRackDetails(rackName: string, dispatch: (bulkSolids: TBulkSol
 
       so only try to set the data if its not empty
       */
-      if (response.data) {
+
+      if (!responseIsEmpty(response.data)) {
+
         /* extract the data */
         const returnBulkSolids = response.data.bulkSolids
         const returnRackFields = response.data.rackFields
@@ -77,43 +98,37 @@ export function GetRackDetails(rackName: string, dispatch: (bulkSolids: TBulkSol
 
       }
 
-      /* if no data do nothing ??? */
     })
 
     /* handle request errors */
-    .catch(error => {
-      console.log(error)
-      alert('error, look console')
-    })
+    .catch(error => ErrorHandler(error))
 }
 
 
 
 /* set onHold property to false on specified bulkSolidID */
-export function ChangeBSOnHoldState(bulkSolidID: number, dispatch: (updatedBulkSolid: TBulkSolid) => void) {
+export function API_BS_ChangeBSOnHoldState(bulkSolidID: number, dispatch: (updatedBulkSolid: TBulkSolid) => void) {
 
   /* the post request */
   axios.put<TBulkSolid>(process.env.REACT_APP_API + '/bulksolid/onhold', { bulkSolidID })
 
     /* if succeeded callback with the updated bulk solid data */
     .then(response => {
-      console.log("BACK FROM REMOVE ON HOLD WITH")
-      console.log(response.data)
-      dispatch(response.data)
+      if (!responseIsEmpty(response.data)) {
+
+        dispatch(response.data)
+      }
     })
 
     /* if error handle it */
-    .catch(error => {
-      console.log(error)
-      alert('error, look console')
-    })
+    .catch(error => ErrorHandler(error))
 
 
 };
 
 
 /* send a request to handle the relations in the database */
-export function MoveBulkSolid(
+export function API_BS_MoveBulkSolid(
   itemID: number,
   fieldID: string,
   rackName: string,
@@ -137,10 +152,10 @@ export function MoveBulkSolid(
 
     /* dispatch the new data */
     .then(response => {
-      console.log("GOT DATA BACK, LOOK")
-      console.log(response.data)
-      console.log("GOOD???")
-      dispatch({ rackName: response.data.rackName, rackFields: response.data.rackFields })
+      if (!responseIsEmpty(response.data)) {
+
+        dispatch({ rackName: response.data.rackName, rackFields: response.data.rackFields })
+      }
     })
 
 
@@ -160,7 +175,7 @@ export function GetMediaURL(path?: string) {
 
 
 /* Store a new bulksolid */
-export function StoreBulkSolid(formData: FormData, dispatch: (success: boolean) => void) {
+export function API_BS_StoreBulkSolid(formData: FormData, dispatch: (success: boolean) => void) {
 
   /* API Call */
   axios.post(process.env.REACT_APP_API + '/bulksolid/create',
@@ -184,16 +199,15 @@ export function StoreBulkSolid(formData: FormData, dispatch: (success: boolean) 
       dispatch a false for state management
     */
     .catch(error => {
-      console.log(error)
-      alert('error, watch console')
       dispatch(false)
+      ErrorHandler(error)
     })
 }
 
 
 
 /* get a new bulkSolidID */
-export function GetNewBulkSolidID(dispatch: (newBulkSolidID: number) => void) {
+export function API_BS_GetNewBulkSolidID(dispatch: (newBulkSolidID: number) => void) {
   axios.get<{ counterValue: number }>(process.env.REACT_APP_API + '/bulksolid/getnewid')
     /*
       response.data contains a the last bulksolidid which was registered
@@ -203,14 +217,14 @@ export function GetNewBulkSolidID(dispatch: (newBulkSolidID: number) => void) {
       if they match it increases the database counter value and saves the new bulksolid
     */
     .then(response => {
-      dispatch(response.data.counterValue + 1)
+      if (!responseIsEmpty(response.data)) {
+
+        dispatch(response.data.counterValue + 1)
+      }
     })
 
 
     /* error handler */
-    .catch((error) => {
-      console.log(error)
-      alert('error, watch console')
-    })
+    .catch(error => ErrorHandler(error))
 
 }

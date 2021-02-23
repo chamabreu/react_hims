@@ -1,8 +1,9 @@
 /* Imports */
 import { useContext } from "react";
 import { Button, Modal } from "react-bootstrap";
+import { API_BS_ChangeBSOnHoldState } from "../APICalls/API";
 import { RackDispatchContext, RackStateContext } from "../Lager/RackReducer";
-import * as API from '../APICalls/API';
+
 
 
 /* Component. This is a Dialog to ask the user if he wants to remove the bulksolid from on hold area */
@@ -16,7 +17,7 @@ export default function OnHoldDialog() {
   const handleRemove = async () => {
 
     /* Remove bulk solid from on hold with API call. This sets the onHold property of the item to false */
-    API.ChangeBSOnHoldState(showOnHoldDialog.bulkSolidData!.bulkSolidID, (updatedBulkSolid) => {
+    API_BS_ChangeBSOnHoldState(showOnHoldDialog.bulkSolidData!.bulkSolidID, (updatedBulkSolid) => {
 
 
       /* success handler, update the onHoldlist with the updatedBulkSolid from backend */

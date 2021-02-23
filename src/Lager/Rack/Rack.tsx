@@ -1,5 +1,4 @@
 /* Imports */
-import * as API from '../../APICalls/API'
 import React, { useContext, useEffect } from 'react'
 import { Row } from "react-bootstrap";
 import { Route, Switch, useParams } from "react-router-dom";
@@ -7,6 +6,7 @@ import Field from './Field';
 import { RackDispatchContext, TRackFieldContents, TBulkSolid } from '../RackReducer';
 import RackRowComponent from './RackRowComponent';
 import OnHoldDialog from '../../Dialogs/OnHoldDialog';
+import { API_RACK_GetRackDetails } from '../../APICalls/API';
 
 /* Type definitions */
 /*
@@ -34,7 +34,7 @@ export default function Rack() {
 
   useEffect(() => {
     /* axios request to get new data. gets called if rackname (url) changes */
-    API.GetRackDetails(rackName, (bulkSolids: TBulkSolid[], rackFields: TRackFieldContents) => {
+    API_RACK_GetRackDetails(rackName, (bulkSolids: TBulkSolid[], rackFields: TRackFieldContents) => {
       rackDispatch({ type: 'setAllBulkSolids', payload: bulkSolids })
       rackDispatch({ type: 'setFieldContents', payload: rackFields })
     })

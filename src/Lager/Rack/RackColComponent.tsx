@@ -3,7 +3,7 @@ import { Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 import { RackDispatchContext, RackStateContext, TRackFieldContents, TBulkSolid } from '../RackReducer';
-import * as API from '../../APICalls/API'
+import { API_BS_MoveBulkSolid, API_RACK_GetRackDetails, GetMediaURL } from '../../APICalls/API';
 
 
 
@@ -88,7 +88,7 @@ export default function RackColComponent(props: { field: string, layer: string }
 
 
     /* send a request to handle the relations in the database */
-    API.MoveBulkSolid(itemID, fieldID, rackName, (updatedRack) => {
+    API_BS_MoveBulkSolid(itemID, fieldID, rackName, (updatedRack) => {
 
       /*
         and set the fieldContents of the viewed rack.
@@ -99,7 +99,7 @@ export default function RackColComponent(props: { field: string, layer: string }
       rackDispatch({ type: 'setFieldContents', payload: updatedRack.rackFields })
 
       /* Update the RackFields to show new moved items. */
-      API.GetRackDetails(rackName, (bulkSolids: TBulkSolid[], rackFields: TRackFieldContents) => {
+      API_RACK_GetRackDetails(rackName, (bulkSolids: TBulkSolid[], rackFields: TRackFieldContents) => {
         rackDispatch({ type: 'setAllBulkSolids', payload: bulkSolids })
         rackDispatch({ type: 'setFieldContents', payload: rackFields })
 
@@ -187,7 +187,7 @@ export default function RackColComponent(props: { field: string, layer: string }
           {/* show the picture of the content, or nothing */}
           <div className='d-flex justify-content-center flex-grow-1'>
             {containedBulkSolid?.pictureFile
-              ? <img style={{ width: '90px' }} src={API.GetMediaURL(containedBulkSolid?.pictureFile)} alt="NoPic" />
+              ? <img style={{ width: '90px' }} src={GetMediaURL(containedBulkSolid?.pictureFile)} alt="NA" />
               : null
             }
           </div>
